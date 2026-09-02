@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>25 Problemas de Electronica Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        /* ===== CSS VARIABLES ===== */
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-dark: #3730a3;
+            --secondary: #0ea5e9;
+            --accent: #f43f5e;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.04);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-full: 9999px;
+        }
+
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: relative;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #4338ca 50%, #4f46e5 75%, #6366f1 100%);
+            padding: 3.5rem 1.5rem 3rem;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(99,102,241,0.3) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 20%, rgba(14,165,233,0.2) 0%, transparent 40%),
+                        radial-gradient(ellipse at 50% 80%, rgba(244,63,94,0.1) 0%, transparent 40%);
+            animation: headerFloat 20s ease-in-out infinite;
+        }
+        @keyframes headerFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -20px) rotate(1deg); }
+            66% { transform: translate(-20px, 15px) rotate(-1deg); }
+        }
+        .header-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .header-icon {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 64px; height: 64px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            font-size: 1.75rem;
+            margin-bottom: 1.25rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .header h1 {
+            font-size: 2.25rem; font-weight: 800;
+            letter-spacing: -0.02em; margin-bottom: 0.75rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .header p { font-size: 1.05rem; opacity: 0.9; font-weight: 300; max-width: 600px; margin: 0 auto; }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            display: flex; justify-content: center; gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            position: sticky; top: 0; z-index: 100;
+            flex-wrap: wrap;
+        }
+        .stat-chip {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1rem; border-radius: var(--radius-full);
+            font-size: 0.85rem; font-weight: 500;
+            background: var(--border-light); color: var(--text-secondary);
+            transition: all 0.2s ease; cursor: default;
+        }
+        .stat-chip i { font-size: 0.9rem; }
+        .stat-chip .count { font-weight: 700; color: var(--primary); }
+        .stat-chip.green { background: #ecfdf5; color: #065f46; }
+        .stat-chip.green .count { color: #059669; }
+        .stat-chip.blue { background: #eff6ff; color: #1e40af; }
+        .stat-chip.blue .count { color: #2563eb; }
+        .stat-chip.purple { background: #f5f3ff; color: #5b21b6; }
+        .stat-chip.purple .count { color: #7c3aed; }
+
+        /* ===== MAIN CONTAINER ===== */
+        .main-container { max-width: 960px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+        /* ===== INTRO SECTION ===== */
+        .intro-section {
+            background: var(--card); border-radius: var(--radius-lg);
+            padding: 1.75rem; margin-bottom: 2rem;
+            box-shadow: var(--shadow); border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+        }
+        .intro-section h2 {
+            font-size: 1.15rem; font-weight: 700; color: var(--primary-dark);
+            margin-bottom: 0.75rem;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .intro-section p { color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .intro-section ul { margin: 0.5rem 0 0 1.25rem; color: var(--text-secondary); }
+        .intro-section li { margin-bottom: 0.35rem; font-size: 0.95rem; }
+
+        /* ===== PROBLEM CARD ===== */
+        .problem-card {
+            background: var(--card); border-radius: var(--radius-lg);
+            margin-bottom: 1rem; box-shadow: var(--shadow);
+            border: 1px solid var(--border); overflow: hidden;
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+        }
+        .problem-card:hover { box-shadow: var(--shadow-lg); }
+        .problem-card.active { border-color: var(--primary-light); box-shadow: var(--shadow-lg), 0 0 0 3px rgba(79,70,229,0.08); }
+
+        .problem-header {
+            display: flex; align-items: center; gap: 1rem;
+            padding: 1.1rem 1.5rem; cursor: pointer; user-select: none;
+            transition: background 0.15s ease;
+        }
+        .problem-header:hover { background: var(--border-light); }
+
+        .problem-number {
+            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px; border-radius: var(--radius);
+            font-weight: 700; font-size: 0.95rem; color: white;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            box-shadow: 0 2px 8px rgba(79,70,229,0.3);
+        }
+        .problem-card[data-vars="2"] .problem-number { background: linear-gradient(135deg, #059669, #34d399); box-shadow: 0 2px 8px rgba(5,150,105,0.3); }
+        .problem-card[data-vars="3"] .problem-number { background: linear-gradient(135deg, #2563eb, #60a5fa); box-shadow: 0 2px 8px rgba(37,99,235,0.3); }
+        .problem-card[data-vars="4"] .problem-number { background: linear-gradient(135deg, #7c3aed, #a78bfa); box-shadow: 0 2px 8px rgba(124,58,237,0.3); }
+
+        .problem-title-area { flex: 1; min-width: 0; }
+        .problem-title { font-size: 1.05rem; font-weight: 600; color: var(--text); line-height: 1.4; margin: 0; }
+        .problem-badges { display: flex; gap: 0.4rem; margin-top: 0.35rem; flex-wrap: wrap; }
+        .badge {
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            padding: 0.15rem 0.6rem; border-radius: var(--radius-full);
+            font-size: 0.72rem; font-weight: 600; letter-spacing: 0.01em;
+        }
+        .badge.vars { background: #f0fdf4; color: #15803d; }
+        .problem-card[data-vars="3"] .badge.vars { background: #eff6ff; color: #1d4ed8; }
+        .problem-card[data-vars="4"] .badge.vars { background: #f5f3ff; color: #6d28d9; }
+        .badge.topic { background: var(--border-light); color: var(--text-secondary); }
+
+        .problem-arrow {
+            flex-shrink: 0; width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; background: var(--border-light);
+            color: var(--text-muted); transition: all 0.3s ease; font-size: 0.85rem;
+        }
+        .problem-card.active .problem-arrow { transform: rotate(180deg); background: var(--primary); color: white; }
+
+        /* Problem Body (collapsible) */
+        .problem-body { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .problem-body-inner { padding: 0 1.5rem 1.5rem; border-top: 1px solid var(--border); }
+        .problem-card.active .problem-body { max-height: 8000px; }
+
+        /* ===== INTERNAL CONTENT STYLING ===== */
+        .problem-body-inner .enunciado {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            padding: 1.1rem 1.25rem; border-radius: var(--radius);
+            border: 1px solid var(--border); margin-top: 1rem;
+        }
+        .problem-body-inner .enunciado strong { color: var(--text); }
+
+        .problem-body-inner .solution-block {
+            background: #f0fdf4; padding: 1.1rem 1.25rem; border-radius: var(--radius);
+            border: 1px solid #bbf7d0; border-left: 4px solid var(--success); margin-top: 1rem;
+        }
+        .problem-body-inner .criteria-block {
+            background: #eff6ff; padding: 1.1rem 1.25rem; border-radius: var(--radius);
+            border: 1px solid #bfdbfe; border-left: 4px solid var(--secondary); margin-top: 1rem;
+        }
+        .problem-body-inner .rubric-block {
+            background: #fefce8; padding: 1.1rem 1.25rem; border-radius: var(--radius);
+            border: 1px solid #fde68a; border-left: 4px solid var(--warning); margin-top: 1rem;
+        }
+        .problem-body-inner .content-block { margin-top: 1rem; }
+
+        /* Auto-style headings inside problem body */
+        .problem-body-inner h3 {
+            font-size: 0.95rem; font-weight: 700; color: var(--text);
+            margin: 1.25rem 0 0.6rem;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .problem-body-inner h3:first-child { margin-top: 1rem; }
+        .problem-body-inner h4 {
+            font-size: 0.9rem; font-weight: 600; color: var(--text);
+            margin: 1rem 0 0.5rem;
+        }
+        .problem-body-inner p { font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 0.6rem; line-height: 1.7; }
+        .problem-body-inner ul, .problem-body-inner ol {
+            margin: 0.4rem 0 0.6rem 1.25rem; font-size: 0.92rem; color: var(--text-secondary);
+        }
+        .problem-body-inner li { margin-bottom: 0.35rem; line-height: 1.6; }
+        .problem-body-inner strong { color: var(--text); }
+
+        /* Auto-style summary/details (from EDI2) */
+        .problem-body-inner details {
+            margin: 0.75rem 0; border: 1px solid var(--border); border-radius: var(--radius);
+            overflow: hidden;
+        }
+        .problem-body-inner summary {
+            padding: 0.7rem 1rem; background: #f0fdf4; cursor: pointer;
+            font-weight: 600; color: #065f46; font-size: 0.9rem;
+        }
+        .problem-body-inner summary:hover { background: #dcfce7; }
+
+        /* ===== TABLES ===== */
+        table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            font-size: 0.85rem; margin: 0.75rem 0; border-radius: var(--radius);
+            overflow: hidden; border: 1px solid var(--border);
+        }
+        th {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: white; padding: 0.65rem 0.85rem; text-align: center;
+            font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em;
+        }
+        td { padding: 0.6rem 0.85rem; border-top: 1px solid var(--border); color: var(--text-secondary); text-align: left; vertical-align: top; }
+        tr:nth-child(even) td { background: var(--border-light); }
+        tr:hover td { background: #eef2ff; }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed; bottom: 2rem; right: 2rem;
+            width: 48px; height: 48px; border-radius: 50%;
+            background: var(--primary); color: white; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; box-shadow: var(--shadow-lg);
+            opacity: 0; transform: translateY(20px); transition: all 0.3s ease; z-index: 999;
+        }
+        .back-to-top.visible { opacity: 1; transform: translateY(0); }
+        .back-to-top:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+        /* ===== FOOTER ===== */
+        .footer { text-align: center; padding: 2rem 1rem; color: var(--text-muted); font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+
+        /* ===== TOOLBAR ===== */
+        .toolbar { display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 1rem; }
+        .toolbar-btn {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.45rem 0.9rem; border: 1px solid var(--border);
+            border-radius: var(--radius-full); background: var(--card);
+            color: var(--text-secondary); font-size: 0.8rem; font-weight: 500;
+            cursor: pointer; transition: all 0.2s ease; font-family: inherit;
+        }
+        .toolbar-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .header { padding: 2.5rem 1rem 2rem; }
+            .header h1 { font-size: 1.5rem; }
+            .header p { font-size: 0.92rem; }
+            .header-icon { width: 48px; height: 48px; font-size: 1.3rem; }
+            .stats-bar { gap: 0.5rem; padding: 0.75rem 1rem; }
+            .stat-chip { padding: 0.35rem 0.7rem; font-size: 0.78rem; }
+            .main-container { padding: 1.25rem 0.75rem 3rem; }
+            .problem-header { padding: 0.9rem 1rem; gap: 0.75rem; }
+            .problem-number { width: 34px; height: 34px; font-size: 0.85rem; }
+            .problem-title { font-size: 0.92rem; }
+            .problem-body-inner { padding: 0 1rem 1rem; }
+            table { font-size: 0.78rem; }
+            th, td { padding: 0.45rem 0.6rem; }
+            .toolbar { justify-content: center; }
+        }
+
+        /* ===== PRINT ===== */
+        @media print {
+            .header { background: var(--primary-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .stats-bar { position: static; }
+            .problem-body { max-height: none !important; overflow: visible !important; }
+            .problem-arrow { display: none; }
+            .back-to-top, .toolbar { display: none; }
+            .problem-card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="header-icon"><i class="fas fa-microchip"></i></div>
+            <h1>25 Problemas de Electronica Digital</h1>
+            <p>Coleccion completa para 4 ESO - Alineados con criterios de evaluacion de Tecnologia</p>
+        </div>
+    </header>
+    <div class="stats-bar" id="statsBar"></div>
+    <div class="main-container">
+        
+        <div class="toolbar">
+            <button class="toolbar-btn" onclick="toggleAll(true)"><i class="fas fa-expand"></i> Expandir todo</button>
+            <button class="toolbar-btn" onclick="toggleAll(false)"><i class="fas fa-compress"></i> Contraer todo</button>
+        </div>
+        <div id="problemsContainer">
+            <div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">1</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Control de iluminación automática</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Eficiencia energética</span> <span class="badge topic"><i class="fas fa-tag"></i> Hogar inteligente</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un circuito digital que controle la iluminación de una habitación en función de la presencia de personas y la luz ambiental.</p>
+<ul>
+<li><strong>P</strong>: Presencia detectada (1 = hay personas, 0 = no hay personas)</li>
+<li><strong>L</strong>: Nivel de luz ambiental (1 = oscuro, 0 = suficiente luz)</li>
+</ul>
+<p>La luz se debe encender (salida = 1) solo cuando hay presencia Y está oscuro.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = P · L</p>
+<p><strong>Tabla de verdad:</strong> (0,0)=0; (0,1)=0; (1,0)=0; (1,1)=1</p>
+<p><strong>Circuito:</strong> Puerta AND con entradas P y L</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas aplicando conocimientos de electrónica digital.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos programables que realicen tareas de forma autónoma.</li>
+<li><strong>TEC.4.6.1</strong>: Aplicar criterios de sostenibilidad en el diseño para minimizar el impacto energético.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.6.1</strong></td><td>No considera criterios de sostenibilidad ni impacto ambiental.</td><td>Considera superficialmente la sostenibilidad pero sin aplicación práctica.</td><td>Aplica criterios de sostenibilidad básicos en el diseño.</td><td>Integra medidas concretas de sostenibilidad y eficiencia energética.</td><td>Maximiza la sostenibilidad y justifica el impacto ecosocial del diseño.</td></tr></tbody></table></div></div>
+</div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">2</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Sistema de seguridad para ventana</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Seguridad</span> <span class="badge topic"><i class="fas fa-tag"></i> Hogar</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un circuito de alarma para una ventana que se active cuando la ventana está abierta y el sistema de seguridad está armado.</p>
+<ul>
+<li><strong>A</strong>: Ventana abierta (1 = abierta, 0 = cerrada)</li>
+<li><strong>S</strong>: Sistema armado (1 = armado, 0 = desarmado)</li>
+</ul>
+<p>La alarma debe sonar (salida = 1) cuando el sistema está armado Y la ventana está abierta.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = A · S</p>
+<p><strong>Tabla de verdad:</strong> (0,0)=0; (0,1)=0; (1,0)=0; (1,1)=1</p>
+<p><strong>Circuito:</strong> Puerta AND con entradas A y S</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas aplicando circuitos digitales.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos de control.</li>
+<li><strong>TEC.4.5.1</strong>: Resolver tareas mediante el uso de herramientas digitales para simulación.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.5.1</strong></td><td>No utiliza herramientas digitales o simuladores para la resolución.</td><td>Usa herramientas digitales de forma básica o con errores.</td><td>Usa herramientas digitales eficientemente para simular y verificar.</td><td>Domina las herramientas digitales para optimizar la solución.</td><td>Uso experto de simuladores para validar, analizar y mejorar el diseño.</td></tr></tbody></table></div></div>
+</div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">3</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Sistema de encendido de extractor de cocina</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Ventilación</span> <span class="badge topic"><i class="fas fa-tag"></i> Cocina</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un circuito para un extractor de cocina que se encienda cuando se detecta humo o cuando la luz de la cocina está encendida.</p>
+<ul>
+<li><strong>H</strong>: Humo detectado (1 = hay humo, 0 = no hay humo)</li>
+<li><strong>L</strong>: Luz encendida (1 = luz encendida, 0 = luz apagada)</li>
+</ul>
+<p>El extractor debe encenderse (salida = 1) cuando hay humo O la luz está encendida.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = H + L</p>
+<p><strong>Tabla de verdad:</strong> (0,0)=0; (0,1)=1; (1,0)=1; (1,1)=1</p>
+<p><strong>Circuito:</strong> Puerta OR con entradas H y L</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas aplicando conocimientos de electrónica.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos programables.</li>
+<li><strong>TEC.4.6.1</strong>: Minimizar el impacto ambiental mediante un diseño eficiente.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.6.1</strong></td><td>No considera criterios de sostenibilidad ni impacto ambiental.</td><td>Considera superficialmente la sostenibilidad pero sin aplicación práctica.</td><td>Aplica criterios de sostenibilidad básicos en el diseño.</td><td>Integra medidas concretas de sostenibilidad y eficiencia energética.</td><td>Maximiza la sostenibilidad y justifica el impacto ecosocial del diseño.</td></tr></tbody></table></div></div>
+</div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">4</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Alarma de caja fuerte</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Seguridad</span> <span class="badge topic"><i class="fas fa-tag"></i> Protección</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un circuito de alarma para una caja fuerte que suene cuando la caja está abierta y la alarma está activada.</p>
+<ul>
+<li><strong>C</strong>: Caja abierta (1 = abierta, 0 = cerrada)</li>
+<li><strong>A</strong>: Alarma activada (1 = activada, 0 = desactivada)</li>
+</ul>
+<p>La alarma debe sonar (salida = 1) cuando la caja está abierta Y la alarma está activada.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = C · A</p>
+<p><strong>Tabla de verdad:</strong> (0,0)=0; (0,1)=0; (1,0)=0; (1,1)=1</p>
+<p><strong>Circuito:</strong> Puerta AND con entradas C y A</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas con componentes electrónicos.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos de control.</li>
+<li><strong>TEC.4.5.1</strong>: Resolver tareas mediante herramientas digitales.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.5.1</strong></td><td>No utiliza herramientas digitales o simuladores para la resolución.</td><td>Usa herramientas digitales de forma básica o con errores.</td><td>Usa herramientas digitales eficientemente para simular y verificar.</td><td>Domina las herramientas digitales para optimizar la solución.</td><td>Uso experto de simuladores para validar, analizar y mejorar el diseño.</td></tr></tbody></table></div></div>
+</div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">5</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Control de persiana automática</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Climatización</span> <span class="badge topic"><i class="fas fa-tag"></i> Hogar</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un circuito para controlar una persiana automática que se baje cuando hay luz solar intensa o temperatura alta.</p>
+<ul>
+<li><strong>L</strong>: Luz solar intensa (1 = intensa, 0 = normal)</li>
+<li><strong>T</strong>: Temperatura alta (1 = alta, 0 = normal)</li>
+</ul>
+<p>La persiana debe bajarse (salida = 1) cuando hay luz solar intensa O temperatura alta.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = L + T</p>
+<p><strong>Tabla de verdad:</strong> (0,0)=0; (0,1)=1; (1,0)=1; (1,1)=1</p>
+<p><strong>Circuito:</strong> Puerta OR con entradas L y T</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas aplicando electrónica.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos programables.</li>
+<li><strong>TEC.4.6.1</strong>: Aplicar criterios de sostenibilidad en el diseño.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.6.1</strong></td><td>No considera criterios de sostenibilidad ni impacto ambiental.</td><td>Considera superficialmente la sostenibilidad pero sin aplicación práctica.</td><td>Aplica criterios de sostenibilidad básicos en el diseño.</td><td>Integra medidas concretas de sostenibilidad y eficiencia energética.</td><td>Maximiza la sostenibilidad y justifica el impacto ecosocial del diseño.</td></tr></tbody></table></div></div>
+</div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">6</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Control de temperatura en invernadero</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Agricultura</span> <span class="badge topic"><i class="fas fa-tag"></i> Clima</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un sistema para controlar la temperatura en un invernadero considerando tres variables.</p>
+<ul>
+<li><strong>T</strong>: Temperatura baja (1 = &lt; 15°C, 0 = ≥ 15°C)</li>
+<li><strong>H</strong>: Hora del día (1 = noche, 0 = día)</li>
+<li><strong>V</strong>: Ventilación necesaria (1 = sí, 0 = no)</li>
+</ul>
+<p>El calefactor debe encenderse cuando hace frío Y es de noche. El ventilador debe activarse cuando hace calor O es necesaria ventilación.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función calefactor:</strong> C = T · H</p>
+<p><strong>Función ventilador:</strong> V = T' + V</p>
+<p><strong>Circuito:</strong> Puertas AND, OR y NOT</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Aplicar técnicas de electrónica para fabricar soluciones tecnológicas.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos programables.</li>
+<li><strong>TEC.4.6.2</strong>: Valorar la contribución de la tecnología al desarrollo sostenible.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.6.2</strong></td><td>No valora el impacto social de la tecnología.</td><td>Valora superficialmente el impacto social.</td><td>Valora adecuadamente el impacto y beneficio social.</td><td>Analiza con detalle las repercusiones sociales del proyecto.</td><td>Realiza un análisis crítico y profundo del impacto social y ético.</td></tr></tbody></table></div></div>
+</div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">7</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Sistema de riego automático</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Agua</span> <span class="badge topic"><i class="fas fa-tag"></i> Jardín</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Desarrolla un circuito para un sistema de riego automático que considere humedad del suelo, previsión de lluvia y hora del día.</p>
+<ul>
+<li><strong>H</strong>: Humedad del suelo (1 = seco, 0 = húmedo)</li>
+<li><strong>Ll</strong>: Previsión de lluvia (1 = lluvia prevista, 0 = no lluvia)</li>
+<li><strong>D</strong>: Hora del día (1 = amanecer/atardecer, 0 = otras horas)</li>
+</ul>
+<p>El riego debe activarse cuando el suelo esté seco Y no haya lluvia prevista Y sea la hora adecuada.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = H · Ll' · D</p>
+<p><strong>Tabla de verdad:</strong> 8 combinaciones</p>
+<p><strong>Circuito:</strong> Puertas AND y NOT</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas con componentes electrónicos.</li>
+<li><strong>TEC.4.4.2</strong>: Integrar tecnologías digitales emergentes como IoT.</li>
+<li><strong>TEC.4.6.1</strong>: Minimizar el impacto ambiental mediante un uso eficiente del agua.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.2</strong></td><td>No integra tecnologías emergentes ni IoT en la solución.</td><td>Intenta integrar IoT pero con errores o sin funcionalidad real.</td><td>Integra tecnologías emergentes de forma funcional.</td><td>Integra IoT de forma efectiva aportando valor al sistema.</td><td>Integra tecnologías emergentes de forma innovadora y disruptiva.</td></tr><tr><td><strong>TEC.4.6.1</strong></td><td>No considera criterios de sostenibilidad ni impacto ambiental.</td><td>Considera superficialmente la sostenibilidad pero sin aplicación práctica.</td><td>Aplica criterios de sostenibilidad básicos en el diseño.</td><td>Integra medidas concretas de sostenibilidad y eficiencia energética.</td><td>Maximiza la sostenibilidad y justifica el impacto ecosocial del diseño.</td></tr></tbody></table></div></div>
+</div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">8</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Control de acceso a parking</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Tráfico</span> <span class="badge topic"><i class="fas fa-tag"></i> Estacionamiento</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un sistema de control de acceso a un parking que verifique ticket válido, plazas disponibles y horario permitido.</p>
+<ul>
+<li><strong>T</strong>: Ticket válido (1 = válido, 0 = no válido)</li>
+<li><strong>P</strong>: Plazas disponibles (1 = hay plazas, 0 = completo)</li>
+<li><strong>H</strong>: Horario permitido (1 = dentro de horario, 0 = fuera de horario)</li>
+</ul>
+<p>La barrera debe abrirse cuando el ticket es válido Y hay plazas disponibles Y es horario permitido.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = T · P · H</p>
+<p><strong>Tabla de verdad:</strong> 8 combinaciones con solo una salida 1</p>
+<p><strong>Circuito:</strong> Puerta AND de 3 entradas</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.1</strong>: Analizar el diseño de un producto que da respuesta a una necesidad.</li>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas aplicando electrónica digital.</li>
+<li><strong>TEC.4.5.1</strong>: Resolver tareas mediante herramientas digitales (simuladores).</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.1</strong></td><td>No analiza el diseño del producto ni identifica la necesidad que resuelve.</td><td>Analiza superficialmente el diseño y reconoce parcialmente la necesidad.</td><td>Analiza correctamente el diseño e identifica la necesidad que resuelve.</td><td>Analiza detalladamente el diseño y explica la necesidad con precisión.</td><td>Analiza exhaustivamente el diseño, justificando la necesidad y evaluando el ciclo de vida.</td></tr><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.5.1</strong></td><td>No utiliza herramientas digitales o simuladores para la resolución.</td><td>Usa herramientas digitales de forma básica o con errores.</td><td>Usa herramientas digitales eficientemente para simular y verificar.</td><td>Domina las herramientas digitales para optimizar la solución.</td><td>Uso experto de simuladores para validar, analizar y mejorar el diseño.</td></tr></tbody></table></div></div>
+</div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">9</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Sistema de alarma para coche</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Automóvil</span> <span class="badge topic"><i class="fas fa-tag"></i> Seguridad</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un circuito para la alarma de un coche que se active considerando vibración, puerta abierta y alarma armada.</p>
+<ul>
+<li><strong>V</strong>: Vibración detectada (1 = vibración, 0 = sin vibración)</li>
+<li><strong>P</strong>: Puerta abierta (1 = abierta, 0 = cerrada)</li>
+<li><strong>A</strong>: Alarma armada (1 = activada, 0 = desactivada)</li>
+</ul>
+<p>La alarma debe sonar cuando está armada Y (hay vibración O la puerta está abierta).</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = A · (V + P)</p>
+<p><strong>Tabla de verdad:</strong> 8 combinaciones</p>
+<p><strong>Circuito:</strong> Puertas AND y OR</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas con componentes electrónicos.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos de control.</li>
+<li><strong>TEC.4.3.1</strong>: Intercambiar información usando vocabulario técnico adecuado.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.3.1</strong></td><td>No intercambia información ni fomenta el trabajo en equipo.</td><td>Intercambia información de forma escasa y colabora poco.</td><td>Intercambia información correctamente y fomenta el trabajo en equipo.</td><td>Intercambia información de manera fluida y mejora el trabajo del equipo.</td><td>Lidera el intercambio de información y potencia excelentemente el trabajo en equipo.</td></tr></tbody></table></div></div>
+</div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">10</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Control de llenado de depósito de agua</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Agua</span> <span class="badge topic"><i class="fas fa-tag"></i> Industrial</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un sistema para controlar el llenado de un depósito de agua considerando nivel bajo, permiso de llenado y ausencia de fugas.</p>
+<ul>
+<li><strong>N</strong>: Nivel bajo (1 = bajo, 0 = normal)</li>
+<li><strong>L</strong>: Llenado permitido (1 = permitido, 0 = no permitido)</li>
+<li><strong>S</strong>: Sin fugas (1 = sin fugas, 0 = fuga detectada)</li>
+</ul>
+<p>La bomba debe activarse cuando el nivel es bajo Y se permite llenar Y no hay fugas.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = N · L · S</p>
+<p><strong>Tabla de verdad:</strong> 8 combinaciones</p>
+<p><strong>Circuito:</strong> Puerta AND de 3 entradas</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas aplicando electrónica.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos programables.</li>
+<li><strong>TEC.4.6.1</strong>: Minimizar el impacto ambiental mediante uso eficiente del agua.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.6.1</strong></td><td>No considera criterios de sostenibilidad ni impacto ambiental.</td><td>Considera superficialmente la sostenibilidad pero sin aplicación práctica.</td><td>Aplica criterios de sostenibilidad básicos en el diseño.</td><td>Integra medidas concretas de sostenibilidad y eficiencia energética.</td><td>Maximiza la sostenibilidad y justifica el impacto ecosocial del diseño.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">11</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Sistema de alerta de heladas</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Clima</span> <span class="badge topic"><i class="fas fa-tag"></i> Alerta</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un circuito para alertar de heladas considerando temperatura baja, humedad alta y viento calmado.</p>
+<ul>
+<li><strong>T</strong>: Temperatura baja (1 = &lt; 0°C, 0 = ≥ 0°C)</li>
+<li><strong>H</strong>: Humedad alta (1 = &gt;80%, 0 = ≤80%)</li>
+<li><strong>V</strong>: Viento calmado (1 = &lt; 5 km/h, 0 = ≥ 5 km/h)</li>
+</ul>
+<p>La alerta debe activarse cuando hay temperatura baja Y humedad alta Y viento calmado.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = T · H · V</p>
+<p><strong>Tabla de verdad:</strong> 8 combinaciones</p>
+<p><strong>Circuito:</strong> Puerta AND de 3 entradas</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas con componentes electrónicos.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos de control.</li>
+<li><strong>TEC.4.6.2</strong>: Valorar la contribución de la tecnología al desarrollo sostenible.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.6.2</strong></td><td>No valora el impacto social de la tecnología.</td><td>Valora superficialmente el impacto social.</td><td>Valora adecuadamente el impacto y beneficio social.</td><td>Analiza con detalle las repercusiones sociales del proyecto.</td><td>Realiza un análisis crítico y profundo del impacto social y ético.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">12</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Control de iluminación de escalera</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Iluminación</span> <span class="badge topic"><i class="fas fa-tag"></i> Escalera</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un sistema para controlar la iluminación de una escalera considerando movimiento, luz ambiental baja y tiempo nocturno.</p>
+<ul>
+<li><strong>M</strong>: Movimiento detectado (1 = movimiento, 0 = sin movimiento)</li>
+<li><strong>L</strong>: Luz ambiental baja (1 = baja, 0 = normal)</li>
+<li><strong>T</strong>: Tiempo nocturno (1 = noche, 0 = día)</li>
+</ul>
+<p>Las luces deben encenderse cuando hay movimiento Y luz ambiental baja Y es de noche.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = M · L · T</p>
+<p><strong>Tabla de verdad:</strong> 8 combinaciones</p>
+<p><strong>Circuito:</strong> Puerta AND de 3 entradas</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas aplicando electrónica.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos programables.</li>
+<li><strong>TEC.4.6.1</strong>: Aplicar criterios de sostenibilidad en el diseño.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.6.1</strong></td><td>No considera criterios de sostenibilidad ni impacto ambiental.</td><td>Considera superficialmente la sostenibilidad pero sin aplicación práctica.</td><td>Aplica criterios de sostenibilidad básicos en el diseño.</td><td>Integra medidas concretas de sostenibilidad y eficiencia energética.</td><td>Maximiza la sostenibilidad y justifica el impacto ecosocial del diseño.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">13</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Sistema de ventilación de sótano</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Ventilación</span> <span class="badge topic"><i class="fas fa-tag"></i> Sótano</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un circuito para ventilar un sótano considerando humedad alta, temperatura alta y presencia de personas.</p>
+<ul>
+<li><strong>H</strong>: Humedad alta (1 = alta, 0 = normal)</li>
+<li><strong>T</strong>: Temperatura alta (1 = alta, 0 = normal)</li>
+<li><strong>P</strong>: Presencia (1 = hay personas, 0 = no hay personas)</li>
+</ul>
+<p>El ventilador debe activarse cuando (hay humedad alta O temperatura alta) Y no hay presencia.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = (H + T) · P'</p>
+<p><strong>Tabla de verdad:</strong> 8 combinaciones</p>
+<p><strong>Circuito:</strong> Puertas OR, AND y NOT</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas con componentes electrónicos.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos de control.</li>
+<li><strong>TEC.4.6.1</strong>: Minimizar el impacto ambiental mediante un diseño eficiente.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.6.1</strong></td><td>No considera criterios de sostenibilidad ni impacto ambiental.</td><td>Considera superficialmente la sostenibilidad pero sin aplicación práctica.</td><td>Aplica criterios de sostenibilidad básicos en el diseño.</td><td>Integra medidas concretas de sostenibilidad y eficiencia energética.</td><td>Maximiza la sostenibilidad y justifica el impacto ecosocial del diseño.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">14</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Control de máquina de café</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Café</span> <span class="badge topic"><i class="fas fa-tag"></i> Bebidas</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un circuito para una máquina de café que sirva café solo cuando se inserta moneda, se pulsa el botón y no se selecciona azúcar.</p>
+<ul>
+<li><strong>M</strong>: Moneda insertada (1 = sí, 0 = no)</li>
+<li><strong>B</strong>: Botón pulsado (1 = sí, 0 = no)</li>
+<li><strong>S</strong>: Sin azúcar (1 = sin azúcar, 0 = con azúcar)</li>
+</ul>
+<p>La máquina debe servir café cuando hay moneda Y se pulsó el botón Y no se seleccionó azúcar.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = M · B · S</p>
+<p><strong>Tabla de verdad:</strong> 8 combinaciones</p>
+<p><strong>Circuito:</strong> Puerta AND de 3 entradas</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas aplicando electrónica.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos programables.</li>
+<li><strong>TEC.4.5.1</strong>: Resolver tareas mediante herramientas digitales.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.5.1</strong></td><td>No utiliza herramientas digitales o simuladores para la resolución.</td><td>Usa herramientas digitales de forma básica o con errores.</td><td>Usa herramientas digitales eficientemente para simular y verificar.</td><td>Domina las herramientas digitales para optimizar la solución.</td><td>Uso experto de simuladores para validar, analizar y mejorar el diseño.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">15</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Sistema de apertura de puerta de garaje</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Garaje</span> <span class="badge topic"><i class="fas fa-tag"></i> Automóvil</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un circuito para abrir una puerta de garaje considerando mando a distancia, sensor de obstáculos y presencia de coche.</p>
+<ul>
+<li><strong>R</strong>: Mando a distancia (1 = activado, 0 = no activado)</li>
+<li><strong>S</strong>: Sensor de obstáculos (1 = sin obstáculos, 0 = obstáculo detectado)</li>
+<li><strong>P</strong>: Presencia de coche (1 = coche presente, 0 = no coche)</li>
+</ul>
+<p>La puerta debe abrirse cuando se activa el mando Y no hay obstáculos Y hay coche presente.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = R · S · P</p>
+<p><strong>Tabla de verdad:</strong> 8 combinaciones</p>
+<p><strong>Circuito:</strong> Puerta AND de 3 entradas</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas con componentes electrónicos.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos de control.</li>
+<li><strong>TEC.4.5.1</strong>: Resolver tareas mediante herramientas digitales.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.5.1</strong></td><td>No utiliza herramientas digitales o simuladores para la resolución.</td><td>Usa herramientas digitales de forma básica o con errores.</td><td>Usa herramientas digitales eficientemente para simular y verificar.</td><td>Domina las herramientas digitales para optimizar la solución.</td><td>Uso experto de simuladores para validar, analizar y mejorar el diseño.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">16</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Sistema de climatización eficiente</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Clima</span> <span class="badge topic"><i class="fas fa-tag"></i> Eficiencia</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un sistema de climatización que considere temperatura exterior, horario, ocupación y ventana abierta para optimizar el consumo.</p>
+<ul>
+<li><strong>T</strong>: Temperatura exterior (1 = frío, 0 = calor)</li>
+<li><strong>H</strong>: Horario (1 = horas punta, 0 = horas valle)</li>
+<li><strong>O</strong>: Ocupación (1 = habitación ocupada, 0 = vacía)</li>
+<li><strong>V</strong>: Ventana abierta (1 = abierta, 0 = cerrada)</li>
+</ul>
+<p>La climatización se activa cuando la habitación está ocupada, la ventana cerrada, y (temperatura fría O no es hora punta).</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = O · V' · (T + H')</p>
+<p><strong>Tabla de verdad:</strong> 16 combinaciones</p>
+<p><strong>Circuito:</strong> Puertas AND, OR y NOT</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas aplicando electrónica.</li>
+<li><strong>TEC.4.4.2</strong>: Integrar tecnologías emergentes como IoT y big data.</li>
+<li><strong>TEC.4.6.1</strong>: Minimizar el impacto ambiental optimizando el consumo energético.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.2</strong></td><td>No integra tecnologías emergentes ni IoT en la solución.</td><td>Intenta integrar IoT pero con errores o sin funcionalidad real.</td><td>Integra tecnologías emergentes de forma funcional.</td><td>Integra IoT de forma efectiva aportando valor al sistema.</td><td>Integra tecnologías emergentes de forma innovadora y disruptiva.</td></tr><tr><td><strong>TEC.4.6.1</strong></td><td>No considera criterios de sostenibilidad ni impacto ambiental.</td><td>Considera superficialmente la sostenibilidad pero sin aplicación práctica.</td><td>Aplica criterios de sostenibilidad básicos en el diseño.</td><td>Integra medidas concretas de sostenibilidad y eficiencia energética.</td><td>Maximiza la sostenibilidad y justifica el impacto ecosocial del diseño.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">17</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Control de tráfico en cruce</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Tráfico</span> <span class="badge topic"><i class="fas fa-tag"></i> Cruce</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un sistema simplificado para un cruce de dos calles con semáforos que priorice el paso según la densidad de tráfico.</p>
+<ul>
+<li><strong>N</strong>: Vehículos en calle Norte (1 = presencia, 0 = no presencia)</li>
+<li><strong>S</strong>: Vehículos en calle Sur (1 = presencia, 0 = no presencia)</li>
+<li><strong>E</strong>: Vehículos en calle Este (1 = presencia, 0 = no presencia)</li>
+<li><strong>O</strong>: Vehículos en calle Oeste (1 = presencia, 0 = no presencia)</li>
+</ul>
+<p>Define reglas lógicas para priorizar el paso (ej: si hay vehículos en N-S y no en E-O, dar paso a N-S).</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> Depende de las reglas definidas (ej: PasoNS = (N+S) · (E'+O'))</p>
+<p><strong>Tabla de verdad:</strong> 16 combinaciones</p>
+<p><strong>Circuito:</strong> Circuito combinacional complejo</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.1</strong>: Analizar el diseño de un producto que responde a una necesidad social.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos programables.</li>
+<li><strong>TEC.4.6.3</strong>: Valorar los beneficios de proyectos tecnológicos de carácter social.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.1</strong></td><td>No analiza el diseño del producto ni identifica la necesidad que resuelve.</td><td>Analiza superficialmente el diseño y reconoce parcialmente la necesidad.</td><td>Analiza correctamente el diseño e identifica la necesidad que resuelve.</td><td>Analiza detalladamente el diseño y explica la necesidad con precisión.</td><td>Analiza exhaustivamente el diseño, justificando la necesidad y evaluando el ciclo de vida.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.6.3</strong></td><td>No identifica beneficios sociales en proyectos abiertos.</td><td>Identifica vagamente beneficios en proyectos comunitarios.</td><td>Identifica y valora los beneficios de proyectos sociales abiertos.</td><td>Promueve activamente el valor de los proyectos colaborativos y sociales.</td><td>Demuestra un compromiso excelente con el desarrollo tecnológico social.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">18</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Sistema de monitorización de salud</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Salud</span> <span class="badge topic"><i class="fas fa-tag"></i> Medicina</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un circuito para un dispositivo wearable que monitorice señales de salud y emita alertas ante combinaciones críticas.</p>
+<ul>
+<li><strong>FC</strong>: Frecuencia cardíaca alta (1 = alta, 0 = normal)</li>
+<li><strong>T</strong>: Temperatura corporal alta (1 = alta, 0 = normal)</li>
+<li><strong>S</strong>: Saturación de oxígeno baja (1 = baja, 0 = normal)</li>
+<li><strong>M</strong>: Movimiento detectado (1 = movimiento, 0 = inactividad)</li>
+</ul>
+<p>Alerta cuando (FC alta Y T alta) O (S baja Y sin movimiento).</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = (FC · T) + (S · M')</p>
+<p><strong>Tabla de verdad:</strong> 16 combinaciones</p>
+<p><strong>Circuito:</strong> Puertas AND, OR y NOT</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.4.2</strong>: Integrar tecnologías emergentes como IoT y wearables.</li>
+<li><strong>TEC.4.5.1</strong>: Resolver tareas mediante herramientas digitales y conocimientos interdisciplinares.</li>
+<li><strong>TEC.4.6.3</strong>: Valorar los beneficios de proyectos tecnológicos de carácter social.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.4.2</strong></td><td>No integra tecnologías emergentes ni IoT en la solución.</td><td>Intenta integrar IoT pero con errores o sin funcionalidad real.</td><td>Integra tecnologías emergentes de forma funcional.</td><td>Integra IoT de forma efectiva aportando valor al sistema.</td><td>Integra tecnologías emergentes de forma innovadora y disruptiva.</td></tr><tr><td><strong>TEC.4.5.1</strong></td><td>No utiliza herramientas digitales o simuladores para la resolución.</td><td>Usa herramientas digitales de forma básica o con errores.</td><td>Usa herramientas digitales eficientemente para simular y verificar.</td><td>Domina las herramientas digitales para optimizar la solución.</td><td>Uso experto de simuladores para validar, analizar y mejorar el diseño.</td></tr><tr><td><strong>TEC.4.6.3</strong></td><td>No identifica beneficios sociales en proyectos abiertos.</td><td>Identifica vagamente beneficios en proyectos comunitarios.</td><td>Identifica y valora los beneficios de proyectos sociales abiertos.</td><td>Promueve activamente el valor de los proyectos colaborativos y sociales.</td><td>Demuestra un compromiso excelente con el desarrollo tecnológico social.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">19</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Gestor de energías renovables</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Energía</span> <span class="badge topic"><i class="fas fa-tag"></i> Almacenamiento</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un sistema que gestione el uso de energías renovables en una vivienda considerando producción solar, eólica, demanda y baterías.</p>
+<ul>
+<li><strong>S</strong>: Producción solar suficiente (1 = sí, 0 = no)</li>
+<li><strong>E</strong>: Producción eólica suficiente (1 = sí, 0 = no)</li>
+<li><strong>D</strong>: Demanda energética alta (1 = sí, 0 = no)</li>
+<li><strong>B</strong>: Baterías cargadas (1 = sí, 0 = no)</li>
+</ul>
+<p>Define reglas lógicas para decidir cuándo usar cada fuente (solar, eólica o baterías).</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> Lógica prioritaria (1. Solar si S=1; 2. Eólica si S=0 y E=1; 3. Baterías si S=0 y E=0 y B=1)</p>
+<p><strong>Tabla de verdad:</strong> 16 combinaciones</p>
+<p><strong>Circuito:</strong> Circuito secuencial complejo</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas con componentes electrónicos.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos programables.</li>
+<li><strong>TEC.4.6.2</strong>: Valorar la contribución de las tecnologías al desarrollo sostenible.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.6.2</strong></td><td>No valora el impacto social de la tecnología.</td><td>Valora superficialmente el impacto social.</td><td>Valora adecuadamente el impacto y beneficio social.</td><td>Analiza con detalle las repercusiones sociales del proyecto.</td><td>Realiza un análisis crítico y profundo del impacto social y ético.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">20</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Control de acceso a edificio inteligente</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Edificio</span> <span class="badge topic"><i class="fas fa-tag"></i> Seguridad</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un sistema de control de acceso a un edificio inteligente que verifique tarjeta, huella, código y horario permitido.</p>
+<ul>
+<li><strong>T</strong>: Tarjeta válida (1 = sí, 0 = no)</li>
+<li><strong>H</strong>: Huella válida (1 = sí, 0 = no)</li>
+<li><strong>C</strong>: Código correcto (1 = sí, 0 = no)</li>
+<li><strong>Hr</strong>: Horario permitido (1 = sí, 0 = no)</li>
+</ul>
+<p>La puerta se abre cuando (tarjeta O huella O código) Y horario permitido.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = (T + H + C) · Hr</p>
+<p><strong>Tabla de verdad:</strong> 16 combinaciones</p>
+<p><strong>Circuito:</strong> Puertas OR y AND</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas aplicando electrónica.</li>
+<li><strong>TEC.4.4.2</strong>: Integrar tecnologías emergentes como IoT.</li>
+<li><strong>TEC.4.5.1</strong>: Resolver tareas mediante herramientas digitales.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.2</strong></td><td>No integra tecnologías emergentes ni IoT en la solución.</td><td>Intenta integrar IoT pero con errores o sin funcionalidad real.</td><td>Integra tecnologías emergentes de forma funcional.</td><td>Integra IoT de forma efectiva aportando valor al sistema.</td><td>Integra tecnologías emergentes de forma innovadora y disruptiva.</td></tr><tr><td><strong>TEC.4.5.1</strong></td><td>No utiliza herramientas digitales o simuladores para la resolución.</td><td>Usa herramientas digitales de forma básica o con errores.</td><td>Usa herramientas digitales eficientemente para simular y verificar.</td><td>Domina las herramientas digitales para optimizar la solución.</td><td>Uso experto de simuladores para validar, analizar y mejorar el diseño.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">21</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Sistema de riego inteligente para jardín</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Riego</span> <span class="badge topic"><i class="fas fa-tag"></i> Jardín</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un sistema de riego inteligente que considere humedad del suelo, previsión de lluvia, temperatura adecuada y hora adecuada.</p>
+<ul>
+<li><strong>H</strong>: Humedad suelo baja (1 = sí, 0 = no)</li>
+<li><strong>Ll</strong>: Previsión de lluvia (1 = sí, 0 = no)</li>
+<li><strong>T</strong>: Temperatura adecuada (1 = sí, 0 = no)</li>
+<li><strong>Hr</strong>: Hora adecuada (1 = sí, 0 = no)</li>
+</ul>
+<p>El riego se activa cuando humedad baja Y no lluvia prevista Y temperatura adecuada Y hora adecuada.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = H · Ll' · T · Hr</p>
+<p><strong>Tabla de verdad:</strong> 16 combinaciones</p>
+<p><strong>Circuito:</strong> Puertas AND y NOT</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas con componentes electrónicos.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos programables.</li>
+<li><strong>TEC.4.6.1</strong>: Minimizar el impacto ambiental mediante uso eficiente del agua.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.6.1</strong></td><td>No considera criterios de sostenibilidad ni impacto ambiental.</td><td>Considera superficialmente la sostenibilidad pero sin aplicación práctica.</td><td>Aplica criterios de sostenibilidad básicos en el diseño.</td><td>Integra medidas concretas de sostenibilidad y eficiencia energética.</td><td>Maximiza la sostenibilidad y justifica el impacto ecosocial del diseño.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">22</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Control de iluminación pública</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Alumbrado</span> <span class="badge topic"><i class="fas fa-tag"></i> Público</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un sistema para controlar la iluminación pública considerando luz ambiental, tiempo nocturno, movimiento y consumo bajo.</p>
+<ul>
+<li><strong>L</strong>: Luz ambiental baja (1 = sí, 0 = no)</li>
+<li><strong>T</strong>: Tiempo nocturno (1 = sí, 0 = no)</li>
+<li><strong>M</strong>: Movimiento detectado (1 = sí, 0 = no)</li>
+<li><strong>C</strong>: Consumo bajo permitido (1 = sí, 0 = no)</li>
+</ul>
+<p>La farola se enciende cuando es de noche Y poca luz, Y (hay movimiento O consumo bajo permite encendido).</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = L · T · (M + C)</p>
+<p><strong>Tabla de verdad:</strong> 16 combinaciones</p>
+<p><strong>Circuito:</strong> Puertas AND y OR</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas aplicando electrónica.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos programables.</li>
+<li><strong>TEC.4.6.1</strong>: Aplicar criterios de sostenibilidad en el diseño.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.6.1</strong></td><td>No considera criterios de sostenibilidad ni impacto ambiental.</td><td>Considera superficialmente la sostenibilidad pero sin aplicación práctica.</td><td>Aplica criterios de sostenibilidad básicos en el diseño.</td><td>Integra medidas concretas de sostenibilidad y eficiencia energética.</td><td>Maximiza la sostenibilidad y justifica el impacto ecosocial del diseño.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">23</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Sistema de seguridad para hogar digital</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Seguridad</span> <span class="badge topic"><i class="fas fa-tag"></i> Hogar</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un sistema de seguridad para un hogar digital que considere presencia no autorizada, ventana abierta, alarma activada y cámaras.</p>
+<ul>
+<li><strong>P</strong>: Presencia no autorizada (1 = sí, 0 = no)</li>
+<li><strong>V</strong>: Ventana abierta (1 = sí, 0 = no)</li>
+<li><strong>A</strong>: Alarma activada (1 = sí, 0 = no)</li>
+<li><strong>C</strong>: Cámaras detectan movimiento (1 = sí, 0 = no)</li>
+</ul>
+<p>La alarma suena cuando está activada Y (presencia no autorizada O ventana abierta O cámaras detectan movimiento).</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = A · (P + V + C)</p>
+<p><strong>Tabla de verdad:</strong> 16 combinaciones</p>
+<p><strong>Circuito:</strong> Puertas AND y OR</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas con componentes electrónicos.</li>
+<li><strong>TEC.4.4.2</strong>: Integrar tecnologías emergentes como IoT.</li>
+<li><strong>TEC.4.5.1</strong>: Resolver tareas mediante herramientas digitales.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.2</strong></td><td>No integra tecnologías emergentes ni IoT en la solución.</td><td>Intenta integrar IoT pero con errores o sin funcionalidad real.</td><td>Integra tecnologías emergentes de forma funcional.</td><td>Integra IoT de forma efectiva aportando valor al sistema.</td><td>Integra tecnologías emergentes de forma innovadora y disruptiva.</td></tr><tr><td><strong>TEC.4.5.1</strong></td><td>No utiliza herramientas digitales o simuladores para la resolución.</td><td>Usa herramientas digitales de forma básica o con errores.</td><td>Usa herramientas digitales eficientemente para simular y verificar.</td><td>Domina las herramientas digitales para optimizar la solución.</td><td>Uso experto de simuladores para validar, analizar y mejorar el diseño.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">24</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Control de invernadero automatizado</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Agricultura</span> <span class="badge topic"><i class="fas fa-tag"></i> Automatización</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un sistema completo para controlar un invernadero automatizado considerando temperatura, humedad, luz y necesidad de riego.</p>
+<ul>
+<li><strong>T</strong>: Temperatura fuera de rango (1 = sí, 0 = no)</li>
+<li><strong>H</strong>: Humedad fuera de rango (1 = sí, 0 = no)</li>
+<li><strong>L</strong>: Luz insuficiente (1 = sí, 0 = no)</li>
+<li><strong>R</strong>: Riego necesario (1 = sí, 0 = no)</li>
+</ul>
+<p>Define sistemas de control independientes para cada variable o combinaciones entre ellas.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> Múltiples funciones según cada sistema de control</p>
+<p><strong>Tabla de verdad:</strong> 16 combinaciones para cada salida</p>
+<p><strong>Circuito:</strong> Múltiples circuitos combinacionales</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.2</strong>: Fabricar soluciones tecnológicas con componentes electrónicos.</li>
+<li><strong>TEC.4.4.1</strong>: Diseñar sistemas automáticos programables.</li>
+<li><strong>TEC.4.6.2</strong>: Valorar la contribución de la tecnología al desarrollo sostenible.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.2</strong></td><td>No logra producir un producto o la solución es inadecuada.</td><td>Produce una solución con fallos o inadecuada para la necesidad prevista.</td><td>Produce una solución que cumple con la necesidad prevista y usa herramientas adecuadamente.</td><td>Produce un producto que cumple la necesidad y muestra elementos de innovación.</td><td>Produce un producto excepcional en diseño, funcionalidad e innovación técnica.</td></tr><tr><td><strong>TEC.4.4.1</strong></td><td>No realiza el sistema automático o tiene errores graves de funcionamiento.</td><td>El sistema funciona con errores significativos o retraso en la entrega.</td><td>El sistema automático funciona correctamente y cumple las especificaciones.</td><td>El sistema automático es robusto, bien diseñado y documentado.</td><td>El sistema es excelente, optimizado, totalmente autónomo y profesional.</td></tr><tr><td><strong>TEC.4.6.2</strong></td><td>No valora el impacto social de la tecnología.</td><td>Valora superficialmente el impacto social.</td><td>Valora adecuadamente el impacto y beneficio social.</td><td>Analiza con detalle las repercusiones sociales del proyecto.</td><td>Realiza un análisis crítico y profundo del impacto social y ético.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+<div class="problem-card" data-vars="2">
+        <div class="problem-header">
+            <div class="problem-number">25</div>
+            <div class="problem-title-area">
+                <h3 class="problem-title">Gestor de carga de vehículo eléctrico</h3>
+                <div class="problem-badges"><span class="badge vars"><i class="fas fa-hashtag"></i> 2 var</span> <span class="badge topic"><i class="fas fa-tag"></i> Eléctrico</span> <span class="badge topic"><i class="fas fa-tag"></i> Carga</span></div>
+            </div>
+            <div class="problem-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+        <div class="problem-body">
+            <div class="problem-body-inner">
+                <div>
+<div>
+<p><strong>Descripción:</strong> Diseña un sistema para gestionar la carga de un vehículo eléctrico considerando horario valle, red estable, batería baja y conexión.</p>
+<ul>
+<li><strong>H</strong>: Horario valle (1 = sí, 0 = no)</li>
+<li><strong>R</strong>: Red estable (1 = sí, 0 = no)</li>
+<li><strong>B</strong>: Batería baja (1 = sí, 0 = no)</li>
+<li><strong>C</strong>: Conectado (1 = sí, 0 = no)</li>
+</ul>
+<p>La carga se activa cuando es horario valle Y red estable Y batería baja Y está conectado.</p>
+</div>
+<div>
+<h4><i></i> Solución</h4>
+<p><strong>Función lógica:</strong> F = H · R · B · C</p>
+<p><strong>Tabla de verdad:</strong> 16 combinaciones</p>
+<p><strong>Circuito:</strong> Puerta AND de 4 entradas</p>
+</div>
+<div>
+<h4><i></i> Relación con criterios de evaluación</h4>
+<ul>
+<li><strong>TEC.4.2.1</strong>: Analizar el diseño de un producto que responde a una necesidad.</li>
+<li><strong>TEC.4.4.2</strong>: Integrar tecnologías emergentes como IoT.</li>
+<li><strong>TEC.4.6.1</strong>: Aplicar criterios de sostenibilidad en el diseño.</li>
+</ul>
+</div>
+<div><h4><i></i> Rúbrica de evaluación</h4><div><table><thead><tr><th>Criterio</th><th>Nivel 1-2,9</th><th>Nivel 3-4,9</th><th>Nivel 5-6,9</th><th>Nivel 7-8,9</th><th>Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.1</strong></td><td>No analiza el diseño del producto ni identifica la necesidad que resuelve.</td><td>Analiza superficialmente el diseño y reconoce parcialmente la necesidad.</td><td>Analiza correctamente el diseño e identifica la necesidad que resuelve.</td><td>Analiza detalladamente el diseño y explica la necesidad con precisión.</td><td>Analiza exhaustivamente el diseño, justificando la necesidad y evaluando el ciclo de vida.</td></tr><tr><td><strong>TEC.4.4.2</strong></td><td>No integra tecnologías emergentes ni IoT en la solución.</td><td>Intenta integrar IoT pero con errores o sin funcionalidad real.</td><td>Integra tecnologías emergentes de forma funcional.</td><td>Integra IoT de forma efectiva aportando valor al sistema.</td><td>Integra tecnologías emergentes de forma innovadora y disruptiva.</td></tr><tr><td><strong>TEC.4.6.1</strong></td><td>No considera criterios de sostenibilidad ni impacto ambiental.</td><td>Considera superficialmente la sostenibilidad pero sin aplicación práctica.</td><td>Aplica criterios de sostenibilidad básicos en el diseño.</td><td>Integra medidas concretas de sostenibilidad y eficiencia energética.</td><td>Maximiza la sostenibilidad y justifica el impacto ecosocial del diseño.</td></tr></tbody></table></div></div></div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>Electronica Digital - 4 ESO &middot; Criterios de Evaluacion TEC.4.x.x</p>
+    </footer>
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
+    <script>
+        document.querySelectorAll('.problem-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.closest('.problem-card');
+                card.classList.toggle('active');
+            });
+        });
+        function toggleAll(open) {
+            document.querySelectorAll('.problem-card').forEach(card => {
+                if (open) card.classList.add('active');
+                else card.classList.remove('active');
+            });
+        }
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('backToTop');
+            if (window.scrollY > 400) btn.classList.add('visible');
+            else btn.classList.remove('visible');
+        });
+        (function() {
+            const cards = document.querySelectorAll('.problem-card');
+            let counts = { 2: 0, 3: 0, 4: 0 };
+            cards.forEach(c => { const v = parseInt(c.dataset.vars); if (counts[v] !== undefined) counts[v]++; });
+            const bar = document.getElementById('statsBar');
+            bar.innerHTML = `
+                <span class="stat-chip green"><i class="fas fa-circle-check"></i> 2 variables <span class="count">${counts[2]}</span></span>
+                <span class="stat-chip blue"><i class="fas fa-layer-group"></i> 3 variables <span class="count">${counts[3]}</span></span>
+                <span class="stat-chip purple"><i class="fas fa-cubes"></i> 4 variables <span class="count">${counts[4]}</span></span>
+                <span class="stat-chip"><i class="fas fa-list-check"></i> Total <span class="count">${cards.length}</span></span>
+            `;
+        })();
+    </script>
+</body>
+</html>
