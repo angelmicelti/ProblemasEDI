@@ -1,4 +1,4 @@
-const CACHE_NAME = 'edi-v3';
+const CACHE_NAME = 'edi-v4';
 const urlsToCache = [
   './',
   './index.html',
