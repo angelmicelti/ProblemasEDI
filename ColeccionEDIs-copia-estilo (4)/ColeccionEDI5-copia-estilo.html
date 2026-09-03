@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Problemas de Electrónica Digital (V)</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+/* ============================================================
+   AURORA DARK · Núcleo compartido para las colecciones "copia"
+   Paleta violeta #8B5CF6 → cian #22D3EE · Space Grotesk + Inter
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --bg: #060A13;
+    --bg-2: #0A0F1E;
+    --panel: rgba(148, 163, 184, 0.055);
+    --panel-strong: rgba(148, 163, 184, 0.09);
+    --stroke: rgba(148, 163, 184, 0.14);
+    --stroke-soft: rgba(148, 163, 184, 0.10);
+    --text: #F1F5F9;
+    --text-secondary: #B9C6DA;
+    --text-muted: #7E90AB;
+    --violet: #8B5CF6;
+    --violet-soft: #A78BFA;
+    --cyan: #22D3EE;
+    --fuchsia: #E879F9;
+    --emerald: #34D399;
+    --blue: #60A5FA;
+    --amber: #FBBF24;
+    --font-display: 'Space Grotesk', 'Inter', system-ui, 'Segoe UI', sans-serif;
+    --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --grad-main: linear-gradient(120deg, #8B5CF6, #6366F1 45%, #22D3EE);
+}
+
+/* ===== BASE ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: var(--font-body);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    background:
+        radial-gradient(900px 520px at 88% -120px, rgba(139, 92, 246, 0.17), transparent 62%),
+        radial-gradient(820px 520px at -12% 240px, rgba(34, 211, 238, 0.10), transparent 58%),
+        radial-gradient(1100px 720px at 50% 118%, rgba(99, 102, 241, 0.09), transparent 62%),
+        var(--bg);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+::selection { background: rgba(139, 92, 246, 0.5); color: #fff; }
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: var(--bg-2); }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #4C1D95, #155E75);
+    border-radius: 8px;
+    border: 2px solid var(--bg-2);
+}
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #6D28D9, #0E7490); }
+button { font-family: var(--font-body); }
+button:focus-visible, summary:focus-visible, a:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+strong, b { color: var(--text); font-weight: 600; }
+
+/* ===== CABECERA · Héroe con aurora ===== */
+header {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    color: #fff;
+    background: var(--bg-2);
+    border: 1px solid rgba(139, 92, 246, 0.28);
+    border-radius: 22px;
+    padding: 2.7rem 1.5rem 2.5rem;
+    margin-bottom: 2.2rem;
+    box-shadow: 0 30px 80px -40px rgba(139, 92, 246, 0.45);
+}
+header::before {
+    content: '';
+    position: absolute;
+    inset: -45%;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(36% 42% at 22% 38%, rgba(139, 92, 246, 0.40), transparent 70%),
+        radial-gradient(32% 40% at 78% 28%, rgba(34, 211, 238, 0.28), transparent 70%),
+        radial-gradient(28% 34% at 56% 86%, rgba(232, 121, 249, 0.20), transparent 70%);
+    filter: blur(34px);
+    animation: auroraDrift 22s ease-in-out infinite alternate;
+}
+header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(72% 95% at 50% 42%, #000 25%, transparent 100%);
+    mask-image: radial-gradient(72% 95% at 50% 42%, #000 25%, transparent 100%);
+}
+@keyframes auroraDrift {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+    33%  { transform: translate(3%, -3%) rotate(2deg) scale(1.06); }
+    66%  { transform: translate(-3%, 2%) rotate(-2deg) scale(1.03); }
+    100% { transform: translate(2%, 3%) rotate(1deg) scale(1.08); }
+}
+header > * { position: relative; z-index: 1; }
+header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 4vw, 2.9rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.18;
+    margin: 0 0 0.6rem;
+    background: linear-gradient(100deg, #E0E7FF 0%, #A78BFA 32%, #22D3EE 62%, #E0E7FF 92%);
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 7s linear infinite;
+    filter: drop-shadow(0 6px 26px rgba(139, 92, 246, 0.35));
+}
+header h1 i { -webkit-text-fill-color: #67E8F9; }
+@keyframes shimmer { to { background-position: 220% center; } }
+header p { color: #A5B4CE; margin: 0.25rem 0; font-weight: 300; }
+header p:last-of-type::after {
+    content: '';
+    display: block;
+    width: 120px; height: 2px;
+    margin: 1.3rem auto 0;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, var(--violet), var(--cyan), transparent);
+}
+
+/* ===== TABLAS base ===== */
+table { width: 100%; border-collapse: collapse; margin: 0.8rem 0; font-size: 0.87rem; }
+th {
+    background: linear-gradient(120deg, #4C1D95, #6D28D9 45%, #0E7490 130%);
+    color: #fff;
+    padding: 0.62rem 0.8rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+td {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--stroke-soft);
+    color: var(--text-secondary);
+    text-align: left;
+    vertical-align: top;
+    background: rgba(15, 23, 42, 0.38);
+}
+tr:nth-child(even) td { background: rgba(30, 41, 59, 0.45); }
+tr:hover td { background: rgba(99, 102, 241, 0.14); }
+td strong { color: #E8EDF7; }
+ul li::marker, ol li::marker { color: var(--violet-soft); }
+
+/* ===== BOTÓN PDF ===== */
+.pdf-btn {
+    background: rgba(148, 163, 184, 0.08);
+    color: #67E8F9;
+    border: 1px solid rgba(34, 211, 238, 0.4);
+    padding: 4px 13px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.pdf-btn i { color: #F0ABFC; }
+.pdf-btn:hover {
+    background: linear-gradient(120deg, #E879F9, #8B5CF6);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 6px 20px -6px rgba(232, 121, 249, 0.6);
+    transform: translateY(-1px) scale(1.03);
+}
+
+/* ===== ANIMACIONES compartidas ===== */
+@keyframes cardIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== SUBTEMA CLARO para exportación PDF =====
+   Los scripts de cada página clonan tarjetas dentro de un contenedor
+   temporal (fuera de pantalla o de 750px) con fondo blanco; se re-tematiza
+   ese clon para que el PDF salga legible. */
+body > div[style*="-9999"],
+body > div[style*="750px"] { background: #ffffff !important; }
+body > div[style*="-9999"] :where(p, li, td, th, div, span, summary, strong, b, em, label, h1, h2, h3, h4, h5),
+body > div[style*="750px"] :where(p, li, td, th, div, span, summary, strong, b, em, label, h1, h2, h3, h4, h5) {
+    color: #1e293b;
+    text-shadow: none;
+}
+body > div[style*="-9999"] :where(h1, h2, h3, h4, h5),
+body > div[style*="750px"] :where(h1, h2, h3, h4, h5) {
+    background: none;
+    -webkit-text-fill-color: #312e81;
+    color: #312e81;
+    animation: none;
+    filter: none;
+}
+body > div[style*="-9999"] table, body > div[style*="750px"] table { background: #fff; }
+body > div[style*="-9999"] th,
+body > div[style*="750px"] th {
+    background: #ede9fe !important;
+    color: #312e81 !important;
+    border: 1px solid #ddd6fe !important;
+    text-shadow: none !important;
+}
+body > div[style*="-9999"] td,
+body > div[style*="750px"] td {
+    background: #fff !important;
+    color: #334155 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+body > div[style*="-9999"] tr:nth-child(even) td,
+body > div[style*="750px"] tr:nth-child(even) td { background: #f8fafc !important; }
+body > div[style*="-9999"] .rubrica h4,
+body > div[style*="-9999"] .rubric h3,
+body > div[style*="750px"] .rubrica h4,
+body > div[style*="750px"] .rubric h3 {
+    background: #4c1d95 !important;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+}
+body > div[style*="-9999"] .rubric-table th,
+body > div[style*="750px"] .rubric-table th {
+    background: #ede9fe !important;
+    color: #312e81 !important;
+}
+body > div[style*="-9999"] .problem-number,
+body > div[style*="750px"] .problem-number {
+    background: #4c1d95 !important;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+}
+body > div[style*="-9999"] .variables-tag,
+body > div[style*="750px"] .variables-tag {
+    background: #d1fae5 !important;
+    color: #065f46 !important;
+    border: 1px solid #a7f3d0 !important;
+}
+body > div[style*="-9999"] .level-1, body > div[style*="750px"] .level-1 { background: #f8d7da !important; color: #721c24 !important; }
+body > div[style*="-9999"] .level-2, body > div[style*="750px"] .level-2 { background: #fff3cd !important; color: #856404 !important; }
+body > div[style*="-9999"] .level-3, body > div[style*="750px"] .level-3 { background: #d4edda !important; color: #155724 !important; }
+body > div[style*="-9999"] .level-4, body > div[style*="750px"] .level-4 { background: #cce5ff !important; color: #004085 !important; }
+body > div[style*="-9999"] .level-5, body > div[style*="750px"] .level-5 { background: #d1ecf1 !important; color: #0c5460 !important; }
+body > div[style*="-9999"] .badge, body > div[style*="750px"] .badge { background: #e2e8f0 !important; color: #334155 !important; border: none !important; }
+body > div[style*="-9999"] .badge-2vars, body > div[style*="750px"] .badge-2vars { background: #d4edda !important; color: #155724 !important; }
+body > div[style*="-9999"] .badge-3vars, body > div[style*="750px"] .badge-3vars { background: #cce5ff !important; color: #004085 !important; }
+body > div[style*="-9999"] .badge-4vars, body > div[style*="750px"] .badge-4vars { background: #f8d7da !important; color: #721c24 !important; }
+body > div[style*="-9999"] .badge-criteria, body > div[style*="750px"] .badge-criteria { background: #fff3cd !important; color: #856404 !important; }
+body > div[style*="-9999"] .boolean, body > div[style*="750px"] .boolean,
+body > div[style*="-9999"] .expresion, body > div[style*="750px"] .expresion {
+    background: #cffafe !important;
+    color: #155e75 !important;
+    border: 1px solid #a5f3fc !important;
+}
+body > div[style*="-9999"] .solution, body > div[style*="-9999"] .solucion,
+body > div[style*="750px"] .solution, body > div[style*="750px"] .solucion { background: #f0fdf4 !important; border: 1px solid #bbf7d0 !important; }
+body > div[style*="-9999"] .solution h4, body > div[style*="-9999"] .solucion h3,
+body > div[style*="750px"] .solution h4, body > div[style*="750px"] .solucion h3 { color: #166534 !important; -webkit-text-fill-color: #166534 !important; }
+body > div[style*="-9999"] .criteria, body > div[style*="-9999"] .enunciado,
+body > div[style*="750px"] .criteria, body > div[style*="750px"] .enunciado { background: #eff6ff !important; border: 1px solid #bfdbfe !important; }
+body > div[style*="-9999"] .problem-description, body > div[style*="750px"] .problem-description { background: #f8fafc !important; border: 1px solid #e2e8f0 !important; }
+body > div[style*="-9999"] details, body > div[style*="750px"] details { background: #f9fafb !important; border: 1px solid #e5e7eb !important; }
+body > div[style*="-9999"] .pdf-btn, body > div[style*="750px"] .pdf-btn { display: none !important; }
+
+/* ===== MOVIMIENTO REDUCIDO ===== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===== IMPRESIÓN nativa ===== */
+@media print {
+    body { background: #fff !important; }
+    header { background: #312e81 !important; border: none; box-shadow: none; }
+    header::before, header::after { display: none; }
+    header h1 { background: none; -webkit-text-fill-color: #fff; color: #fff; animation: none; filter: none; }
+    header p { color: #e0e7ff !important; }
+    header p:last-of-type::after { background: rgba(255,255,255,0.4); }
+}
+
+/* ════════════════════════════════════════════════════════
+   SECCIÓN ESPECÍFICA DE ESTE DOCUMENTO
+   ════════════════════════════════════════════════════════ */
+/* ============================================================
+   SECCIÓN EDI5 · Tarjetas verticales con botón PDF en cabecera
+   ============================================================ */
+:root {
+    --bg: #060A13;
+    --card-bg: rgba(148, 163, 184, 0.05);
+    --accent: #A78BFA;
+    --accent-soft: rgba(139, 92, 246, 0.16);
+    --text: #F1F5F9;
+    --muted: #7E90AB;
+    --border: rgba(148, 163, 184, 0.14);
+    --danger: #E879F9;
+}
+
+/* Cabecera a sangre completa */
+body > header {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    padding: 2.4rem 1rem;
+    margin-bottom: 2rem;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* Tarjetas */
+.exercise-card {
+    background: linear-gradient(180deg, rgba(148, 163, 184, 0.07), rgba(148, 163, 184, 0.028));
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 14px 34px -20px rgba(0, 0, 0, 0.85);
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.3, 1), box-shadow 0.3s, border-color 0.3s;
+    animation: cardIn 0.55s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+.container .exercise-card:nth-child(1)  { animation-delay: 0.04s; }
+.container .exercise-card:nth-child(2)  { animation-delay: 0.08s; }
+.container .exercise-card:nth-child(3)  { animation-delay: 0.12s; }
+.container .exercise-card:nth-child(4)  { animation-delay: 0.16s; }
+.container .exercise-card:nth-child(5)  { animation-delay: 0.20s; }
+.container .exercise-card:nth-child(6)  { animation-delay: 0.24s; }
+.container .exercise-card:nth-child(7)  { animation-delay: 0.28s; }
+.container .exercise-card:nth-child(8)  { animation-delay: 0.32s; }
+.container .exercise-card:nth-child(9)  { animation-delay: 0.36s; }
+.container .exercise-card:nth-child(10) { animation-delay: 0.40s; }
+.container .exercise-card:nth-child(11) { animation-delay: 0.44s; }
+.container .exercise-card:nth-child(12) { animation-delay: 0.48s; }
+.container .exercise-card:nth-child(13) { animation-delay: 0.52s; }
+.container .exercise-card:nth-child(14) { animation-delay: 0.56s; }
+.container .exercise-card:nth-child(15) { animation-delay: 0.60s; }
+.container .exercise-card:nth-child(16) { animation-delay: 0.64s; }
+.container .exercise-card:nth-child(17) { animation-delay: 0.68s; }
+.container .exercise-card:nth-child(18) { animation-delay: 0.72s; }
+.container .exercise-card:nth-child(19) { animation-delay: 0.76s; }
+.container .exercise-card:nth-child(20) { animation-delay: 0.80s; }
+.container .exercise-card:nth-child(21) { animation-delay: 0.84s; }
+.container .exercise-card:nth-child(22) { animation-delay: 0.88s; }
+.container .exercise-card:nth-child(23) { animation-delay: 0.92s; }
+.container .exercise-card:nth-child(24) { animation-delay: 0.96s; }
+.container .exercise-card:nth-child(25) { animation-delay: 1.00s; }
+.exercise-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(167, 139, 250, 0.42);
+    box-shadow: 0 22px 48px -20px rgba(0, 0, 0, 0.9), 0 0 32px -10px rgba(139, 92, 246, 0.3);
+}
+.exercise-card.active {
+    border-color: rgba(139, 92, 246, 0.55);
+    box-shadow:
+        0 0 0 1px rgba(139, 92, 246, 0.35),
+        0 22px 48px -20px rgba(0, 0, 0, 0.9),
+        0 0 44px -12px rgba(139, 92, 246, 0.4);
+}
+
+/* Cabecera */
+.exercise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    padding: 1.1rem 1.25rem;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid transparent;
+    transition: background 0.2s;
+}
+.exercise-header:hover { background: rgba(148, 163, 184, 0.06); }
+.exercise-header h2 {
+    font-family: var(--font-display);
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #EDF2FB;
+    flex-grow: 1;
+    line-height: 1.45;
+    transition: color 0.25s;
+}
+.exercise-header:hover h2 { color: #C7D2FE; }
+.header-actions { display: flex; align-items: center; gap: 14px; }
+.arrow-icon {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 7px solid var(--cyan);
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.6));
+}
+
+/* Estados activos (mecánica intacta) */
+.exercise-card.active .exercise-header { border-bottom: 1px solid var(--stroke-soft); }
+.exercise-card.active .arrow-icon { transform: rotate(180deg); }
+.exercise-body { display: none; padding: 1.25rem 1.4rem 1.4rem; animation: fadeIn 0.3s ease; }
+.exercise-card.active .exercise-body { display: block; }
+
+/* Interno */
+.exercise-body p { color: var(--text-secondary); font-size: 0.93rem; margin: 0 0 0.6rem; }
+span.variables { color: #F0ABFC; font-weight: 700; }
+
+.rubric {
+    background: rgba(15, 23, 42, 0.42);
+    border: 1px solid var(--stroke);
+    padding: 15px 17px;
+    border-radius: 14px;
+    margin-top: 14px;
+    overflow-x: auto;
+}
+.rubric h3 {
+    font-family: var(--font-display);
+    margin: 0 0 10px 0;
+    font-size: 0.95rem;
+    color: #E8EDF7;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.rubric h3::before {
+    content: '';
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 3px;
+    background: var(--grad-main);
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.65);
+}
+.rubric table { width: 100%; border-collapse: collapse; font-size: 0.84rem; background: transparent; min-width: 500px; margin: 0; }
+.rubric th, .rubric td { border: 1px solid var(--stroke-soft); padding: 8px 12px; text-align: left; }
+.rubric th {
+    background: linear-gradient(120deg, #4C1D95, #6D28D9 45%, #0E7490 130%);
+    color: #fff;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+.rubric td { background: rgba(15, 23, 42, 0.35); color: var(--text-secondary); }
+.rubric tr:nth-child(even) td { background: rgba(30, 41, 59, 0.42); }
+.rubric tr:hover td { background: rgba(99, 102, 241, 0.14); }
+.rubric td:first-child { color: #C4B5FD; font-weight: 600; background: rgba(139, 92, 246, 0.13); }
+
+@media (max-width: 640px) {
+    body > header { padding: 1.8rem 1rem; }
+    body > header h1 { font-size: 1.6rem; }
+    .container { padding: 0 12px 20px; }
+    .exercise-header { flex-wrap: wrap; }
+    .exercise-header h2 { font-size: 0.96rem; flex-basis: 100%; }
+    .exercise-body { padding: 1rem 1rem 1.1rem; }
+    .rubric table { font-size: 0.75rem; }
+}
+  
+/* ============================================================
+   UNIFORMIZACIÓN · índice 2 col · guía de uso · filtros · export
+   ============================================================ */
+html { scroll-behavior: smooth; }
+[id] { scroll-margin-top: 96px; }
+
+/* ---- Índice de problemas (2 columnas) ---- */
+.unif-index { margin: 26px 0; }
+.unif-index h2 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin: 0 0 14px;
+    background: linear-gradient(90deg, #E9D5FF, #22D3EE);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+.unif-index-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 14px;
+}
+@media (max-width: 760px) {
+    .unif-index-grid { grid-template-columns: 1fr; }
+}
+.unif-index-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 1px solid var(--stroke);
+    border-radius: 12px;
+    background: var(--panel);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.3, 1), border-color 0.25s, background 0.25s, box-shadow 0.25s, color 0.25s;
+}
+.unif-index-item:hover, .unif-index-item:focus-visible {
+    transform: translateY(-2px);
+    border-color: rgba(167, 139, 250, 0.55);
+    background: rgba(139, 92, 246, 0.12);
+    color: #fff;
+    box-shadow: 0 12px 28px -16px rgba(139, 92, 246, 0.65);
+    outline: none;
+}
+.unif-index-num {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #fff;
+    background: var(--grad-main);
+    box-shadow: 0 4px 12px -4px rgba(139, 92, 246, 0.6);
+}
+.unif-index-titulo { flex: 1; font-size: 0.9rem; font-weight: 500; line-height: 1.35; }
+.unif-index-vars {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    color: var(--cyan);
+    background: rgba(34, 211, 238, 0.08);
+    white-space: nowrap;
+}
+
+/* ---- Guía de uso (acordeón replegado por defecto) ---- */
+.unif-guia {
+    border: 1px solid rgba(52, 211, 153, 0.35);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(52, 211, 153, 0.09), rgba(52, 211, 153, 0.02));
+    overflow: hidden;
+    margin: 22px 0;
+    box-shadow: 0 14px 34px -22px rgba(0, 0, 0, 0.85);
+}
+.unif-guia summary {
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    padding: 15px 20px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    color: #6EE7B7;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.25s, color 0.25s;
+}
+.unif-guia summary::-webkit-details-marker { display: none; }
+.unif-guia summary::after {
+    content: '+';
+    margin-left: auto;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--cyan);
+    background: var(--panel-strong);
+    border: 1px solid var(--stroke);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s;
+}
+.unif-guia summary:hover { background: rgba(52, 211, 153, 0.10); color: #A7F3D0; }
+.unif-guia[open] summary { border-bottom: 1px solid var(--stroke-soft); }
+.unif-guia[open] summary::after {
+    content: '\2212';
+    transform: rotate(180deg);
+    color: #06281C;
+    background: linear-gradient(90deg, #34D399, #22D3EE);
+    border-color: transparent;
+}
+.unif-guia-body { padding: 6px 22px 18px; color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; }
+.unif-guia-body p { margin: 0.55rem 0; }
+.unif-guia-body ul { margin: 0.4rem 0 0.4rem 1.25rem; }
+.unif-guia-body li { margin-bottom: 0.35rem; }
+
+/* ---- Filtros por número de variables ---- */
+.unif-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    background: rgba(10, 15, 30, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--stroke);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin: 22px 0;
+}
+.unif-filters .filter-btn {
+    padding: 9px 20px;
+    border: 1px solid var(--stroke);
+    background: var(--panel-strong);
+    color: var(--text-secondary);
+    border-radius: 999px;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+.unif-filters .filter-btn:hover {
+    background: rgba(139, 92, 246, 0.2);
+    border-color: rgba(167, 139, 250, 0.5);
+    color: #fff;
+    transform: translateY(-2px);
+}
+.unif-filters .filter-btn.active {
+    background: var(--grad-main);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 8px 24px -8px rgba(139, 92, 246, 0.65);
+}
+
+/* ---- Botón export en el cuerpo (EDI6) y exportación EDI4 ---- */
+.unif-pdf-bottom { margin-top: 14px; }
+
+/* ---- Título de cabecera para las tarjetas JS de EDI6 ---- */
+.problem-header .problem-title {
+    flex: 1;
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.35;
+    color: var(--text);
+}
+@media (max-width: 480px) {
+    .problem-header .problem-title { font-size: 0.92rem; }
+}
+
+/* ---- Los acordeones siempre a UNA columna ---- */
+.exercise-grid { grid-template-columns: 1fr !important; }
+
+/* ---- Utilidad para filtros ---- */
+.unif-hidden { display: none !important; }
+
+/* ---- El marcador "+" del resumen no debe salir en los PDF ---- */
+body > div[style*="-9999"] details > summary::after { display: none !important; }
+
+/* ---- Impresión: componentes uniformes en claro ---- */
+@media print {
+    .unif-filters { display: none !important; }
+    .unif-index-item { border-color: #ccc; color: #111; background: #fff; box-shadow: none; }
+    .unif-index-num { background: #eee; color: #111; box-shadow: none; }
+    .unif-index-vars { color: #555; border-color: #ccc; background: #fff; }
+    .unif-guia { border-color: #bbb; background: #fff; box-shadow: none; }
+    .unif-guia summary { color: #111; }
+    .unif-guia summary::after { color: #444; background: #f2f2f2; border-color: #ccc; }
+    .unif-guia-body { color: #222; }
+}
+
+  
+/* ===== ANCHURA UNIFICADA: columna única (cajas visibles de 1168px) ===== */
+.container { max-width: 1200px; padding-left: 16px; padding-right: 16px; }
+body > header, body > section.unif-index, body > details.unif-guia, body > .unif-filters {
+    max-width: 1168px; margin-left: auto; margin-right: auto;
+}
+  
+
+
+/* ===== SUBTEMA-PDF-v5 (anclas .unif-pdf-root + .unif-pdf-temp) =====
+   El clonador de html2canvas no copia atributos style: los contenedores
+   temporales (div hijo directo de body SIN clase, o con left:-9999px) se
+   tematizan aquí, vía CSS que sí viaja al iframe de render. */
+.unif-pdf-temp, body > div[style*="-9999"], body > div[style*="750px"] {
+    background: #ffffff !important;
+}
+.unif-pdf-temp *, body > div[style*="-9999"] *, body > div[style*="750px"] * {
+    color: #1f2937 !important;
+    -webkit-text-fill-color: #1f2937 !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+}
+.unif-pdf-temp :is(p, div, span, li, ul, ol, td, summary, details, section, header, strong, b, em, h1, h2, h3, h4, h5, table, tbody, thead, tr, figure, blockquote),
+body > div[style*="-9999"] :is(p, div, span, li, ul, ol, td, summary, details, section, header, strong, b, em, h1, h2, h3, h4, h5, table, tbody, thead, tr, figure, blockquote),
+body > div[style*="750px"] :is(p, div, span, li, ul, ol, td, summary, details, section, header, strong, b, em, h1, h2, h3, h4, h5, table, tbody, thead, tr, figure, blockquote) {
+    background-image: none !important;
+    background-color: transparent !important;
+    border-color: #d1d5db !important;
+}
+.unif-pdf-temp .accordion-content, .unif-pdf-temp .exercise-body,
+.unif-pdf-temp .problema-content, .unif-pdf-temp .problem-content,
+body > div[style*="-9999"] .accordion-content, body > div[style*="-9999"] .exercise-body,
+body > div[style*="-9999"] .problema-content, body > div[style*="-9999"] .problem-content {
+    display: block !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding-top: 1rem;
+}
+/* acentos legibles (especificidad > universal) */
+.unif-pdf-temp th, body > div[style*="-9999"] th, body > div[style*="750px"] th {
+    background-color: #ede9fe !important;
+    color: #312e81 !important;
+    -webkit-text-fill-color: #312e81 !important;
+    border: 1px solid #ddd6fe !important;
+}
+.unif-pdf-temp td, body > div[style*="-9999"] td, body > div[style*="750px"] td {
+    background-color: #ffffff !important;
+    color: #334155 !important;
+    -webkit-text-fill-color: #334155 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+.unif-pdf-temp tr:nth-child(even) td, body > div[style*="-9999"] tr:nth-child(even) td, body > div[style*="750px"] tr:nth-child(even) td { background-color: #f8fafc !important; }
+.unif-pdf-temp .problem-number, body > div[style*="-9999"] .problem-number, body > div[style*="750px"] .problem-number {
+    background-color: #4c1d95 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+.unif-pdf-temp .rubrica h4, .unif-pdf-temp .rubric h3,
+body > div[style*="-9999"] .rubrica h4, body > div[style*="-9999"] .rubric h3,
+body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
+    background-color: #4c1d95 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+.unif-pdf-temp .rubric-table th, body > div[style*="-9999"] .rubric-table th, body > div[style*="750px"] .rubric-table th {
+    background-color: #ede9fe !important;
+    color: #312e81 !important;
+    -webkit-text-fill-color: #312e81 !important;
+}
+.unif-pdf-temp .level-1, body > div[style*="-9999"] .level-1, body > div[style*="750px"] .level-1 { background-color: #f8d7da !important; color: #721c24 !important; -webkit-text-fill-color: #721c24 !important; }
+.unif-pdf-temp .level-2, body > div[style*="-9999"] .level-2, body > div[style*="750px"] .level-2 { background-color: #fff3cd !important; color: #856404 !important; -webkit-text-fill-color: #856404 !important; }
+.unif-pdf-temp .level-3, body > div[style*="-9999"] .level-3, body > div[style*="750px"] .level-3 { background-color: #d4edda !important; color: #155724 !important; -webkit-text-fill-color: #155724 !important; }
+.unif-pdf-temp .level-4, body > div[style*="-9999"] .level-4, body > div[style*="750px"] .level-4 { background-color: #cce5ff !important; color: #004085 !important; -webkit-text-fill-color: #004085 !important; }
+.unif-pdf-temp .level-5, body > div[style*="-9999"] .level-5, body > div[style*="750px"] .level-5 { background-color: #d1ecf1 !important; color: #0c5460 !important; -webkit-text-fill-color: #0c5460 !important; }
+.unif-pdf-temp .badge, body > div[style*="-9999"] .badge, body > div[style*="750px"] .badge { background-color: #e2e8f0 !important; color: #334155 !important; -webkit-text-fill-color: #334155 !important; border: none !important; }
+.unif-pdf-temp .variables-tag, body > div[style*="-9999"] .variables-tag, body > div[style*="750px"] .variables-tag { background-color: #d1fae5 !important; color: #065f46 !important; -webkit-text-fill-color: #065f46 !important; }
+.unif-pdf-temp [class*="soluc"], body > div[style*="-9999"] [class*="soluc"], body > div[style*="750px"] [class*="soluc"] { background-color: #ecfdf5 !important; }
+.unif-pdf-temp summary::after, body > div[style*="-9999"] summary::after, body > div[style*="750px"] summary::after { display: none !important; }
+.unif-pdf-temp .pdf-btn, body > div[style*="-9999"] .pdf-btn, body > div[style*="750px"] .pdf-btn { display: none !important; }
+
+/* Barra de filtros integrada sobre el índice */
+.unif-index .unif-filters { margin: 2px 0 16px; }
+</style>
+  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-microchip"></i> Problemas de Electrónica Digital (V) - 4º ESO</h1>
+    </header>
+    <section class="unif-index" aria-label="Índice de problemas">
+      <h2>Índice de problemas</h2>
+  <div class="unif-filters" role="group" aria-label="Filtrar problemas por número de variables">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="2vars">2 variables</button>
+        <button class="filter-btn" data-filter="3vars">3 variables</button>
+        <button class="filter-btn" data-filter="4vars">4 variables</button>
+      </div>
+      <nav class="unif-index-grid">
+        <a class="unif-index-item" href="#prob1" data-cat="2vars"><span class="unif-index-num">1</span><span class="unif-index-titulo">Sistema de Alarma para Casa</span><span class="unif-index-vars">2 variables</span></a>
+        <a class="unif-index-item" href="#prob2" data-cat="2vars"><span class="unif-index-num">2</span><span class="unif-index-titulo">Control de Riego Automático</span><span class="unif-index-vars">2 variables</span></a>
+        <a class="unif-index-item" href="#prob3" data-cat="3vars"><span class="unif-index-num">3</span><span class="unif-index-titulo">Semáforo Inteligente</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob4" data-cat="3vars"><span class="unif-index-num">4</span><span class="unif-index-titulo">Sistema de Iluminación Automática</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob5" data-cat="3vars"><span class="unif-index-num">5</span><span class="unif-index-titulo">Ascensor Automático</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob6" data-cat="3vars"><span class="unif-index-num">6</span><span class="unif-index-titulo">Puerta Automática de Garage</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob7" data-cat="4vars"><span class="unif-index-num">7</span><span class="unif-index-titulo">Sistema de Seguridad para Caja Fuerte</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob8" data-cat="4vars"><span class="unif-index-num">8</span><span class="unif-index-titulo">Sistema de Climatización Inteligente</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob9" data-cat="4vars"><span class="unif-index-num">9</span><span class="unif-index-titulo">Robot de Limpieza Autónomo</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob10" data-cat="4vars"><span class="unif-index-num">10</span><span class="unif-index-titulo">Sistema de Emergencia para Ancianos</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob11" data-cat="2vars"><span class="unif-index-num">11</span><span class="unif-index-titulo">Control de Acceso a un Edificio</span><span class="unif-index-vars">2 variables</span></a>
+        <a class="unif-index-item" href="#prob12" data-cat="2vars"><span class="unif-index-num">12</span><span class="unif-index-titulo">Sistema de Ventilación Automática</span><span class="unif-index-vars">2 variables</span></a>
+        <a class="unif-index-item" href="#prob13" data-cat="3vars"><span class="unif-index-num">13</span><span class="unif-index-titulo">Sistema de Iluminación de Emergencia</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob14" data-cat="3vars"><span class="unif-index-num">14</span><span class="unif-index-titulo">Sistema de Alerta para Incendios</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob15" data-cat="3vars"><span class="unif-index-num">15</span><span class="unif-index-titulo">Sistema de Control de Acceso a un Parking</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob16" data-cat="4vars"><span class="unif-index-num">16</span><span class="unif-index-titulo">Sistema de Riego Inteligente para Jardín</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob17" data-cat="4vars"><span class="unif-index-num">17</span><span class="unif-index-titulo">Sistema de Calefacción para Invernadero</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob18" data-cat="4vars"><span class="unif-index-num">18</span><span class="unif-index-titulo">Sistema de Alerta para Robo en Vivienda</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob19" data-cat="3vars"><span class="unif-index-num">19</span><span class="unif-index-titulo">Sistema de Control de Consumo Eléctrico</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob20" data-cat="3vars"><span class="unif-index-num">20</span><span class="unif-index-titulo">Sistema de Avisos para Medicación</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob21" data-cat="4vars"><span class="unif-index-num">21</span><span class="unif-index-titulo">Sistema de Alerta para Inundaciones</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob22" data-cat="4vars"><span class="unif-index-num">22</span><span class="unif-index-titulo">Sistema de Control de Acceso a un Laboratorio</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob23" data-cat="3vars"><span class="unif-index-num">23</span><span class="unif-index-titulo">Sistema de Alerta para Fugas de Gas</span><span class="unif-index-vars">3 variables</span></a>
+        <a class="unif-index-item" href="#prob24" data-cat="4vars"><span class="unif-index-num">24</span><span class="unif-index-titulo">Sistema de Control de Iluminación en Aulas</span><span class="unif-index-vars">4 variables</span></a>
+        <a class="unif-index-item" href="#prob25" data-cat="4vars"><span class="unif-index-num">25</span><span class="unif-index-titulo">Sistema de Gestión de Residuos Inteligente</span><span class="unif-index-vars">4 variables</span></a>
+      </nav>
+    </section>
+  <details class="unif-guia">
+      <summary><i class="fas fa-book-open" aria-hidden="true"></i> Guía de uso en el aula</summary>
+      <div class="unif-guia-body">
+      <p><strong>Tipo de problemas:</strong> Electrónica digital aplicada a situaciones cotidianas (domótica, ahorro energético, seguridad, movilidad, centro educativo, hogar inteligente, etc.).</p>
+      <p><strong>Instrucciones:</strong> Haz clic en el título de cada problema para desplegar o replegar su contenido.</p>
+      <p>Cada problema incluye:</p>
+      <ul>
+        <li><strong>Contexto:</strong> situación cotidiana clara para el alumnado.</li>
+        <li><strong>Definición de variables:</strong> siempre en forma de 0/1.</li>
+        <li><strong>Planteamiento:</strong> tabla de verdad, expresión booleana y, cuando procede, simplificación o análisis.</li>
+        <li><strong>Solución:</strong> desplegable con los pasos y la función lógica resuelta.</li>
+        <li><strong>Rúbrica:</strong> específica del problema y vinculada a los criterios TEC.4.x afectados.</li>
+      </ul>
+      </div>
+    </details>
+
+  <div class="container">
+
+        <article class="exercise-card" id="prob1" data-cat="2vars">
+          <div class="exercise-header">
+            <h2>Problema 1: Sistema de Alarma para Casa (2 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob1')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un circuito lógico que active una alarma cuando <span class="variables">la puerta esté abierta (A)</span> y <span class="variables">la ventana esté abierta (B)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.4.1, TEC.4.4.2</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Diseño del circuito</td>
+                        <td>No entrega el diseño o es incorrecto.</td>
+                        <td>Diseño básico con errores.</td>
+                        <td>Diseño correcto pero sin optimizar.</td>
+                        <td>Diseño correcto y optimizado.</td>
+                        <td>Diseño innovador y bien documentado.</td>
+                    </tr>
+                    <tr>
+                        <td>Uso de herramientas digitales</td>
+                        <td>No utiliza herramientas.</td>
+                        <td>Uso básico de herramientas.</td>
+                        <td>Uso adecuado de herramientas.</td>
+                        <td>Uso avanzado de herramientas.</td>
+                        <td>Uso experto y creativo de herramientas.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob2" data-cat="2vars">
+          <div class="exercise-header">
+            <h2>Problema 2: Control de Riego Automático (2 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob2')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que active el riego si <span class="variables">el suelo está seco (A)</span> y <span class="variables">es de noche (B)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.4.1, TEC.4.6.1</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Funcionalidad del sistema</td>
+                        <td>No funciona o es inadecuado.</td>
+                        <td>Funciona con errores.</td>
+                        <td>Funciona correctamente.</td>
+                        <td>Funciona y es eficiente.</td>
+                        <td>Funciona, es eficiente y sostenible.</td>
+                    </tr>
+                    <tr>
+                        <td>Sostenibilidad</td>
+                        <td>No considera sostenibilidad.</td>
+                        <td>Considera parcialmente la sostenibilidad.</td>
+                        <td>Considera adecuadamente la sostenibilidad.</td>
+                        <td>Incluye mejoras sostenibles.</td>
+                        <td>Innovación en sostenibilidad.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob3" data-cat="3vars">
+          <div class="exercise-header">
+            <h2>Problema 3: Semáforo Inteligente (3 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob3')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un semáforo que cambie a rojo si <span class="variables">hay peatones (A)</span>, <span class="variables">hay tráfico (B)</span>, o <span class="variables">es de noche (C)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.1.1, TEC.4.4.1</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Creatividad en el diseño</td>
+                        <td>No muestra creatividad.</td>
+                        <td>Creatividad limitada.</td>
+                        <td>Creatividad adecuada.</td>
+                        <td>Diseño creativo.</td>
+                        <td>Diseño altamente creativo.</td>
+                    </tr>
+                    <tr>
+                        <td>Trabajo en equipo</td>
+                        <td>No participa.</td>
+                        <td>Participación limitada.</td>
+                        <td>Participación adecuada.</td>
+                        <td>Participación activa.</td>
+                        <td>Liderazgo y colaboración.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob4" data-cat="3vars">
+          <div class="exercise-header">
+            <h2>Problema 4: Sistema de Iluminación Automática (3 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob4')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que encienda las luces si <span class="variables">está oscuro (A)</span>, <span class="variables">hay movimiento (B)</span>, o <span class="variables">es hora pico (C)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.1.2, TEC.4.5.1</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Uso de herramientas digitales</td>
+                        <td>No utiliza herramientas.</td>
+                        <td>Uso básico de herramientas.</td>
+                        <td>Uso adecuado de herramientas.</td>
+                        <td>Uso avanzado de herramientas.</td>
+                        <td>Uso experto y creativo de herramientas.</td>
+                    </tr>
+                    <tr>
+                        <td>Autonomía en el trabajo</td>
+                        <td>No trabaja de forma autónoma.</td>
+                        <td>Autonomía limitada.</td>
+                        <td>Autonomía adecuada.</td>
+                        <td>Autonomía y proactividad.</td>
+                        <td>Autonomía y liderazgo.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob5" data-cat="3vars">
+          <div class="exercise-header">
+            <h2>Problema 5: Ascensor Automático (3 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob5')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema para un ascensor que suba si <span class="variables">alguien pulsa el botón de subir (A)</span>, <span class="variables">el ascensor está en planta baja (B)</span>, y <span class="variables">no está lleno (C)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.2.2, TEC.4.4.1</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Fabricación del prototipo</td>
+                        <td>No fabrica o es inadecuado.</td>
+                        <td>Fabricación con errores.</td>
+                        <td>Fabricación correcta.</td>
+                        <td>Fabricación de calidad.</td>
+                        <td>Fabricación excepcional.</td>
+                    </tr>
+                    <tr>
+                        <td>Uso de materiales</td>
+                        <td>Materiales inadecuados.</td>
+                        <td>Materiales básicos.</td>
+                        <td>Materiales adecuados.</td>
+                        <td>Materiales de calidad.</td>
+                        <td>Materiales innovadores.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob6" data-cat="3vars">
+          <div class="exercise-header">
+            <h2>Problema 6: Puerta Automática de Garage (3 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob6')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que abra la puerta del garaje si <span class="variables">el coche está cerca (A)</span>, <span class="variables">el dueño está identificado (B)</span>, y <span class="variables">no hay obstáculos (C)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.4.2, TEC.4.6.1</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Integración de tecnologías emergentes</td>
+                        <td>No integra tecnologías.</td>
+                        <td>Integración básica.</td>
+                        <td>Integración adecuada.</td>
+                        <td>Integración avanzada.</td>
+                        <td>Integración innovadora.</td>
+                    </tr>
+                    <tr>
+                        <td>Impacto social y ambiental</td>
+                        <td>No considera impacto.</td>
+                        <td>Considera parcialmente el impacto.</td>
+                        <td>Considera adecuadamente el impacto.</td>
+                        <td>Incluye mejoras de impacto.</td>
+                        <td>Innovación en impacto positivo.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob7" data-cat="4vars">
+          <div class="exercise-header">
+            <h2>Problema 7: Sistema de Seguridad para Caja Fuerte (4 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob7')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que abra la caja fuerte si <span class="variables">la contraseña es correcta (A)</span>, <span class="variables">la huella es válida (B)</span>, <span class="variables">no hay intentos fallidos (C)</span>, y <span class="variables">es horario permitido (D)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.1.3, TEC.4.4.2</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Investigación y creatividad</td>
+                        <td>No muestra investigación ni creatividad.</td>
+                        <td>Investigación y creatividad limitadas.</td>
+                        <td>Investigación y creatividad adecuadas.</td>
+                        <td>Investigación y creatividad destacadas.</td>
+                        <td>Investigación y creatividad excepcionales.</td>
+                    </tr>
+                    <tr>
+                        <td>Uso de tecnologías emergentes</td>
+                        <td>No utiliza tecnologías emergentes.</td>
+                        <td>Uso básico de tecnologías emergentes.</td>
+                        <td>Uso adecuado de tecnologías emergentes.</td>
+                        <td>Uso avanzado de tecnologías emergentes.</td>
+                        <td>Uso innovador de tecnologías emergentes.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob8" data-cat="4vars">
+          <div class="exercise-header">
+            <h2>Problema 8: Sistema de Climatización Inteligente (4 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob8')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que active la calefacción si <span class="variables">la temperatura es baja (A)</span>, <span class="variables">hay alguien en casa (B)</span>, <span class="variables">es invierno (C)</span>, y <span class="variables">no es hora punta de energía (D)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.2.1, TEC.4.6.2</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Análisis del ciclo de vida</td>
+                        <td>No analiza el ciclo de vida.</td>
+                        <td>Análisis superficial.</td>
+                        <td>Análisis adecuado.</td>
+                        <td>Análisis detallado.</td>
+                        <td>Análisis exhaustivo y crítico.</td>
+                    </tr>
+                    <tr>
+                        <td>Sostenibilidad y accesibilidad</td>
+                        <td>No considera sostenibilidad ni accesibilidad.</td>
+                        <td>Considera parcialmente.</td>
+                        <td>Considera adecuadamente.</td>
+                        <td>Incluye mejoras.</td>
+                        <td>Innovación en sostenibilidad y accesibilidad.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob9" data-cat="4vars">
+          <div class="exercise-header">
+            <h2>Problema 9: Robot de Limpieza Autónomo (4 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob9')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un robot que limpie si <span class="variables">el suelo está sucio (A)</span>, <span class="variables">la batería está cargada (B)</span>, <span class="variables">no hay mascotas cerca (C)</span>, y <span class="variables">es de día (D)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.4.1, TEC.4.6.3</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Diseño y construcción</td>
+                        <td>No diseña ni construye.</td>
+                        <td>Diseño y construcción básicos.</td>
+                        <td>Diseño y construcción adecuados.</td>
+                        <td>Diseño y construcción de calidad.</td>
+                        <td>Diseño y construcción innovadores.</td>
+                    </tr>
+                    <tr>
+                        <td>Impacto social</td>
+                        <td>No considera impacto social.</td>
+                        <td>Considera parcialmente el impacto social.</td>
+                        <td>Considera adecuadamente el impacto social.</td>
+                        <td>Incluye mejoras de impacto social.</td>
+                        <td>Innovación en impacto social.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob10" data-cat="4vars">
+          <div class="exercise-header">
+            <h2>Problema 10: Sistema de Emergencia para Ancianos (4 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob10')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que envíe una alerta si <span class="variables">el anciano se cae (A)</span>, <span class="variables">no responde (B)</span>, <span class="variables">no hay nadie en casa (C)</span>, y <span class="variables">es hora de actividad normal (D)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.1.1, TEC.4.3.2</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Comunicación y difusión</td>
+                        <td>No comunica ni difunde.</td>
+                        <td>Comunicación y difusión limitadas.</td>
+                        <td>Comunicación y difusión adecuadas.</td>
+                        <td>Comunicación y difusión efectivas.</td>
+                        <td>Comunicación y difusión excelentes.</td>
+                    </tr>
+                    <tr>
+                        <td>Uso de lenguaje inclusivo</td>
+                        <td>No usa lenguaje inclusivo.</td>
+                        <td>Uso limitado de lenguaje inclusivo.</td>
+                        <td>Uso adecuado de lenguaje inclusivo.</td>
+                        <td>Uso efectivo de lenguaje inclusivo.</td>
+                        <td>Uso excelente de lenguaje inclusivo.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob11" data-cat="2vars">
+          <div class="exercise-header">
+            <h2>Problema 11: Control de Acceso a un Edificio (2 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob11')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que permita el acceso a un edificio si <span class="variables">la tarjeta es válida (A)</span> y <span class="variables">el horario es laboral (B)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.4.1, TEC.4.6.1</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Diseño del circuito</td>
+                        <td>No entrega el diseño o es incorrecto.</td>
+                        <td>Diseño básico con errores.</td>
+                        <td>Diseño correcto pero sin optimizar.</td>
+                        <td>Diseño correcto y optimizado.</td>
+                        <td>Diseño innovador y bien documentado.</td>
+                    </tr>
+                    <tr>
+                        <td>Sostenibilidad</td>
+                        <td>No considera sostenibilidad.</td>
+                        <td>Considera parcialmente la sostenibilidad.</td>
+                        <td>Considera adecuadamente la sostenibilidad.</td>
+                        <td>Incluye mejoras sostenibles.</td>
+                        <td>Innovación en sostenibilidad.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob12" data-cat="2vars">
+          <div class="exercise-header">
+            <h2>Problema 12: Sistema de Ventilación Automática (2 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob12')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que active la ventilación si <span class="variables">la calidad del aire es baja (A)</span> y <span class="variables">hay personas en la habitación (B)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.4.2, TEC.4.6.2</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Integración de tecnologías</td>
+                        <td>No integra tecnologías.</td>
+                        <td>Integración básica.</td>
+                        <td>Integración adecuada.</td>
+                        <td>Integración avanzada.</td>
+                        <td>Integración innovadora.</td>
+                    </tr>
+                    <tr>
+                        <td>Impacto ambiental</td>
+                        <td>No considera impacto.</td>
+                        <td>Considera parcialmente el impacto.</td>
+                        <td>Considera adecuadamente el impacto.</td>
+                        <td>Incluye mejoras de impacto.</td>
+                        <td>Innovación en impacto positivo.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob13" data-cat="3vars">
+          <div class="exercise-header">
+            <h2>Problema 13: Sistema de Iluminación de Emergencia (3 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob13')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que active la iluminación de emergencia si <span class="variables">hay un corte de luz (A)</span>, <span class="variables">hay personas en el edificio (B)</span>, o <span class="variables">es de noche (C)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.1.2, TEC.4.5.1</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Uso de herramientas digitales</td>
+                        <td>No utiliza herramientas.</td>
+                        <td>Uso básico de herramientas.</td>
+                        <td>Uso adecuado de herramientas.</td>
+                        <td>Uso avanzado de herramientas.</td>
+                        <td>Uso experto y creativo de herramientas.</td>
+                    </tr>
+                    <tr>
+                        <td>Autonomía en el trabajo</td>
+                        <td>No trabaja de forma autónoma.</td>
+                        <td>Autonomía limitada.</td>
+                        <td>Autonomía adecuada.</td>
+                        <td>Autonomía y proactividad.</td>
+                        <td>Autonomía y liderazgo.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob14" data-cat="3vars">
+          <div class="exercise-header">
+            <h2>Problema 14: Sistema de Alerta para Incendios (3 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob14')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que active una alarma si <span class="variables">hay humo (A)</span>, <span class="variables">la temperatura es alta (B)</span>, o <span class="variables">hay llamas (C)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.2.2, TEC.4.4.1</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Fabricación del prototipo</td>
+                        <td>No fabrica o es inadecuado.</td>
+                        <td>Fabricación con errores.</td>
+                        <td>Fabricación correcta.</td>
+                        <td>Fabricación de calidad.</td>
+                        <td>Fabricación excepcional.</td>
+                    </tr>
+                    <tr>
+                        <td>Uso de materiales</td>
+                        <td>Materiales inadecuados.</td>
+                        <td>Materiales básicos.</td>
+                        <td>Materiales adecuados.</td>
+                        <td>Materiales de calidad.</td>
+                        <td>Materiales innovadores.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob15" data-cat="3vars">
+          <div class="exercise-header">
+            <h2>Problema 15: Sistema de Control de Acceso a un Parking (3 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob15')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que permita el acceso a un parking si <span class="variables">el ticket es válido (A)</span>, <span class="variables">hay plazas disponibles (B)</span>, y <span class="variables">el vehículo no es demasiado alto (C)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.4.2, TEC.4.6.1</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Integración de tecnologías emergentes</td>
+                        <td>No integra tecnologías.</td>
+                        <td>Integración básica.</td>
+                        <td>Integración adecuada.</td>
+                        <td>Integración avanzada.</td>
+                        <td>Integración innovadora.</td>
+                    </tr>
+                    <tr>
+                        <td>Impacto social y ambiental</td>
+                        <td>No considera impacto.</td>
+                        <td>Considera parcialmente el impacto.</td>
+                        <td>Considera adecuadamente el impacto.</td>
+                        <td>Incluye mejoras de impacto.</td>
+                        <td>Innovación en impacto positivo.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob16" data-cat="4vars">
+          <div class="exercise-header">
+            <h2>Problema 16: Sistema de Riego Inteligente para Jardín (4 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob16')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que active el riego si <span class="variables">el suelo está seco (A)</span>, <span class="variables">no está lloviendo (B)</span>, <span class="variables">es de día (C)</span>, y <span class="variables">no hay viento fuerte (D)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.1.3, TEC.4.4.2</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Investigación y creatividad</td>
+                        <td>No muestra investigación ni creatividad.</td>
+                        <td>Investigación y creatividad limitadas.</td>
+                        <td>Investigación y creatividad adecuadas.</td>
+                        <td>Investigación y creatividad destacadas.</td>
+                        <td>Investigación y creatividad excepcionales.</td>
+                    </tr>
+                    <tr>
+                        <td>Uso de tecnologías emergentes</td>
+                        <td>No utiliza tecnologías emergentes.</td>
+                        <td>Uso básico de tecnologías emergentes.</td>
+                        <td>Uso adecuado de tecnologías emergentes.</td>
+                        <td>Uso avanzado de tecnologías emergentes.</td>
+                        <td>Uso innovador de tecnologías emergentes.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob17" data-cat="4vars">
+          <div class="exercise-header">
+            <h2>Problema 17: Sistema de Calefacción para Invernadero (4 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob17')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que active la calefacción si <span class="variables">la temperatura es baja (A)</span>, <span class="variables">hay plantas (B)</span>, <span class="variables">es de noche (C)</span>, y <span class="variables">no hay fallos en el sistema (D)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.2.1, TEC.4.6.2</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Análisis del ciclo de vida</td>
+                        <td>No analiza el ciclo de vida.</td>
+                        <td>Análisis superficial.</td>
+                        <td>Análisis adecuado.</td>
+                        <td>Análisis detallado.</td>
+                        <td>Análisis exhaustivo y crítico.</td>
+                    </tr>
+                    <tr>
+                        <td>Sostenibilidad y accesibilidad</td>
+                        <td>No considera sostenibilidad ni accesibilidad.</td>
+                        <td>Considera parcialmente.</td>
+                        <td>Considera adecuadamente.</td>
+                        <td>Incluye mejoras.</td>
+                        <td>Innovación en sostenibilidad y accesibilidad.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob18" data-cat="4vars">
+          <div class="exercise-header">
+            <h2>Problema 18: Sistema de Alerta para Robo en Vivienda (4 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob18')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que active una alarma si <span class="variables">se detecta movimiento (A)</span>, <span class="variables">la puerta está forzada (B)</span>, <span class="variables">no hay nadie en casa (C)</span>, y <span class="variables">es de noche (D)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.4.1, TEC.4.6.3</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Diseño y construcción</td>
+                        <td>No diseña ni construye.</td>
+                        <td>Diseño y construcción básicos.</td>
+                        <td>Diseño y construcción adecuados.</td>
+                        <td>Diseño y construcción de calidad.</td>
+                        <td>Diseño y construcción innovadores.</td>
+                    </tr>
+                    <tr>
+                        <td>Impacto social</td>
+                        <td>No considera impacto social.</td>
+                        <td>Considera parcialmente el impacto social.</td>
+                        <td>Considera adecuadamente el impacto social.</td>
+                        <td>Incluye mejoras de impacto social.</td>
+                        <td>Innovación en impacto social.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob19" data-cat="3vars">
+          <div class="exercise-header">
+            <h2>Problema 19: Sistema de Control de Consumo Eléctrico (3 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob19')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que corte el suministro eléctrico no esencial si <span class="variables">el consumo es alto (A)</span>, <span class="variables">no hay nadie en casa (B)</span>, o <span class="variables">es hora punta (C)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.1.1, TEC.4.3.2</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Comunicación y difusión</td>
+                        <td>No comunica ni difunde.</td>
+                        <td>Comunicación y difusión limitadas.</td>
+                        <td>Comunicación y difusión adecuadas.</td>
+                        <td>Comunicación y difusión efectivas.</td>
+                        <td>Comunicación y difusión excelentes.</td>
+                    </tr>
+                    <tr>
+                        <td>Uso de lenguaje inclusivo</td>
+                        <td>No usa lenguaje inclusivo.</td>
+                        <td>Uso limitado de lenguaje inclusivo.</td>
+                        <td>Uso adecuado de lenguaje inclusivo.</td>
+                        <td>Uso efectivo de lenguaje inclusivo.</td>
+                        <td>Uso excelente de lenguaje inclusivo.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob20" data-cat="3vars">
+          <div class="exercise-header">
+            <h2>Problema 20: Sistema de Avisos para Medicación (3 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob20')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que avise al paciente si <span class="variables">es hora de tomar la medicación (A)</span>, <span class="variables">el medicamento está disponible (B)</span>, y <span class="variables">el paciente está en casa (C)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.4.2, TEC.4.6.3</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Integración de tecnologías emergentes</td>
+                        <td>No integra tecnologías.</td>
+                        <td>Integración básica.</td>
+                        <td>Integración adecuada.</td>
+                        <td>Integración avanzada.</td>
+                        <td>Integración innovadora.</td>
+                    </tr>
+                    <tr>
+                        <td>Impacto social</td>
+                        <td>No considera impacto social.</td>
+                        <td>Considera parcialmente el impacto social.</td>
+                        <td>Considera adecuadamente el impacto social.</td>
+                        <td>Incluye mejoras de impacto social.</td>
+                        <td>Innovación en impacto social.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob21" data-cat="4vars">
+          <div class="exercise-header">
+            <h2>Problema 21: Sistema de Alerta para Inundaciones (4 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob21')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que active una alarma si <span class="variables">el nivel del agua sube (A)</span>, <span class="variables">hay lluvia intensa (B)</span>, <span class="variables">no hay nadie en casa (C)</span>, y <span class="variables">es temporada de lluvias (D)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.1.3, TEC.4.4.1</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Investigación y creatividad</td>
+                        <td>No muestra investigación ni creatividad.</td>
+                        <td>Investigación y creatividad limitadas.</td>
+                        <td>Investigación y creatividad adecuadas.</td>
+                        <td>Investigación y creatividad destacadas.</td>
+                        <td>Investigación y creatividad excepcionales.</td>
+                    </tr>
+                    <tr>
+                        <td>Diseño y construcción</td>
+                        <td>No diseña ni construye.</td>
+                        <td>Diseño y construcción básicos.</td>
+                        <td>Diseño y construcción adecuados.</td>
+                        <td>Diseño y construcción de calidad.</td>
+                        <td>Diseño y construcción innovadores.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob22" data-cat="4vars">
+          <div class="exercise-header">
+            <h2>Problema 22: Sistema de Control de Acceso a un Laboratorio (4 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob22')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que permita el acceso a un laboratorio si <span class="variables">la tarjeta es válida (A)</span>, <span class="variables">el usuario está autorizado (B)</span>, <span class="variables">el laboratorio no está lleno (C)</span>, y <span class="variables">no hay emergencias (D)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.2.2, TEC.4.6.1</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Fabricación del prototipo</td>
+                        <td>No fabrica o es inadecuado.</td>
+                        <td>Fabricación con errores.</td>
+                        <td>Fabricación correcta.</td>
+                        <td>Fabricación de calidad.</td>
+                        <td>Fabricación excepcional.</td>
+                    </tr>
+                    <tr>
+                        <td>Uso de materiales</td>
+                        <td>Materiales inadecuados.</td>
+                        <td>Materiales básicos.</td>
+                        <td>Materiales adecuados.</td>
+                        <td>Materiales de calidad.</td>
+                        <td>Materiales innovadores.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob23" data-cat="3vars">
+          <div class="exercise-header">
+            <h2>Problema 23: Sistema de Alerta para Fugas de Gas (3 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob23')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que active una alarma si <span class="variables">hay fuga de gas (A)</span>, <span class="variables">la concentración es peligrosa (B)</span>, o <span class="variables">no hay ventilación (C)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.4.2, TEC.4.6.2</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Integración de tecnologías emergentes</td>
+                        <td>No integra tecnologías.</td>
+                        <td>Integración básica.</td>
+                        <td>Integración adecuada.</td>
+                        <td>Integración avanzada.</td>
+                        <td>Integración innovadora.</td>
+                    </tr>
+                    <tr>
+                        <td>Impacto ambiental</td>
+                        <td>No considera impacto.</td>
+                        <td>Considera parcialmente el impacto.</td>
+                        <td>Considera adecuadamente el impacto.</td>
+                        <td>Incluye mejoras de impacto.</td>
+                        <td>Innovación en impacto positivo.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob24" data-cat="4vars">
+          <div class="exercise-header">
+            <h2>Problema 24: Sistema de Control de Iluminación en Aulas (4 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob24')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que encienda las luces en un aula si <span class="variables">hay poca luz natural (A)</span>, <span class="variables">hay clase (B)</span>, <span class="variables">no hay fallos en el sistema (C)</span>, y <span class="variables">es horario escolar (D)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.1.2, TEC.4.5.1</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Uso de herramientas digitales</td>
+                        <td>No utiliza herramientas.</td>
+                        <td>Uso básico de herramientas.</td>
+                        <td>Uso adecuado de herramientas.</td>
+                        <td>Uso avanzado de herramientas.</td>
+                        <td>Uso experto y creativo de herramientas.</td>
+                    </tr>
+                    <tr>
+                        <td>Autonomía en el trabajo</td>
+                        <td>No trabaja de forma autónoma.</td>
+                        <td>Autonomía limitada.</td>
+                        <td>Autonomía adecuada.</td>
+                        <td>Autonomía y proactividad.</td>
+                        <td>Autonomía y liderazgo.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+        <article class="exercise-card" id="prob25" data-cat="4vars">
+          <div class="exercise-header">
+            <h2>Problema 25: Sistema de Gestión de Residuos Inteligente (4 variables)</h2>
+            <div class="header-actions">
+              <button class="pdf-btn" onclick="generarPDF(event, 'prob25')">Exportar PDF</button>
+              <div class="arrow-icon"></div>
+            </div>
+          </div>
+          <div class="exercise-body">
+            <p><strong>Enunciado:</strong> Diseña un sistema que active la compactación de residuos si <span class="variables">el contenedor está lleno (A)</span>, <span class="variables">no hay fallos en el sistema (B)</span>, <span class="variables">es horario permitido (C)</span>, y <span class="variables">no hay nadie cerca (D)</span>.</p>
+            <p><strong>Relación con Criterios:</strong> TEC.4.2.1, TEC.4.6.3</p>
+            <div class="rubric">
+                <h3>Rúbrica:</h3>
+                <table>
+                    <tr>
+                        <th>Criterio</th>
+                        <th>1-2.9</th>
+                        <th>3-4.9</th>
+                        <th>5-6.9</th>
+                        <th>7-8.9</th>
+                        <th>9-10</th>
+                    </tr>
+                    <tr>
+                        <td>Análisis del ciclo de vida</td>
+                        <td>No analiza el ciclo de vida.</td>
+                        <td>Análisis superficial.</td>
+                        <td>Análisis adecuado.</td>
+                        <td>Análisis detallado.</td>
+                        <td>Análisis exhaustivo y crítico.</td>
+                    </tr>
+                    <tr>
+                        <td>Impacto social y ambiental</td>
+                        <td>No considera impacto.</td>
+                        <td>Considera parcialmente el impacto.</td>
+                        <td>Considera adecuadamente el impacto.</td>
+                        <td>Incluye mejoras de impacto.</td>
+                        <td>Innovación en impacto positivo.</td>
+                    </tr>
+                </table>
+            </div>
+        
+          </div>
+        </article>
+        
+  </div>
+  <script>
+    document.querySelectorAll('.exercise-header').forEach(header => {
+        header.addEventListener('click', (e) => {
+            if (e.target.closest('.pdf-btn')) return;
+            header.parentElement.classList.toggle('active');
+        });
+    });
+
+    function generarPDF(e, elementId) {
+        e.stopPropagation();
+        const element = document.getElementById(elementId);
+        const clone = element.cloneNode(true);
+        clone.classList.add('active');
+        clone.style.boxShadow = "none"; clone.style.border = "none";
+        clone.querySelector('.exercise-body').style.display = 'block';
+        
+        const header = clone.querySelector('.exercise-header');
+        header.style.background = "#fff";
+        header.style.borderBottom = "2px solid #2563eb";
+        
+        const btn = clone.querySelector(".pdf-btn"); if(btn) btn.remove();
+        const arrow = clone.querySelector(".arrow-icon"); if(arrow) arrow.remove();
+
+        const tempContainer = document.createElement("div");
+        tempContainer.style.position = "absolute";
+        tempContainer.style.left = "-9999px";
+        tempContainer.style.top = "0";
+        tempContainer.style.width = "800px";
+        tempContainer.style.background = "white";
+        tempContainer.appendChild(clone);
+        document.body.appendChild(tempContainer);
+
+        const opt = {
+          margin: [15, 15, 15, 15],
+          filename: 'ColecciónEDI5_Problema_' + parseInt(elementId.replace('prob', ''), 10) + '.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true, logging: false },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['css', 'legacy'] }
+        };
+
+        html2pdf().set(opt).from(clone).save().then(() => document.body.removeChild(tempContainer));
+    }
+  </script>
+  
+<script>
+/* ===== UNIFORMIZACIÓN: índice · guía · filtros ===== */
+(function () {
+  'use strict';
+  var OPENER = 'click-header'; // 'click-header' | 'details' | 'none'
+
+  // 1) Índice: abrir el acordeón destino y hacer scroll suave
+  document.querySelectorAll('a.unif-index-item').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var href = a.getAttribute('href');
+      var target = document.querySelector(href);
+      if (!target) return;
+      if (OPENER === 'details') {
+        target.open = true;
+      } else if (OPENER === 'click-header') {
+        var hdr = target.querySelector('.accordion-header, .exercise-header, .problema-header, .problem-header');
+        var abierto = target.classList.contains('active') || target.classList.contains('expanded') ||
+                      !!target.querySelector('.active, .expanded');
+        if (hdr && !abierto) hdr.click();
+      }
+      // Scroll en dos fases: inmediato + corrección al asentarse las transiciones
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(function () {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 600);
+      if (history.replaceState) history.replaceState(null, '', href);
+    });
+  });
+
+  // 2) Filtros por número de variables (barra uniforme)
+  var botones = document.querySelectorAll('.unif-filters .filter-btn');
+  if (botones.length) {
+    botones.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        botones.forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var f = btn.getAttribute('data-filter');
+        var cat = (f === 'all') ? null : f;
+        document.querySelectorAll('[data-cat]').forEach(function (el) {
+          el.classList.toggle('unif-hidden', !!(cat && el.getAttribute('data-cat') !== cat));
+        });
+      });
+    });
+  }
+  /* sin extras */
+})();
+</script>
+<script>
+/* ===== MEJORA-PDF-CLARO: exportaciones legibles y sin páginas en blanco ===== */
+(function () {
+  'use strict';
+  function parseCol(v) {
+    var m = /rgba?\(([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s/]+([\d.]+))?/.exec(v || '');
+    return m ? [+m[1], +m[2], +m[3], m[4] === undefined ? 1 : +m[4]] : null;
+  }
+  function lum(c) { return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; }
+
+  // Tema claro inline sobre el elemento que se va a capturar en el PDF
+  /* window.__unifTemaClaroAgresivo */
+  window.__unifTemaClaro = function (root) {
+    /* Tema claro AGRESIVO con estilos inline: los inline SÍ viajan con el clon
+       al iframe de html2canvas (verificado). El parche por prototipo lo aplica
+       para todas las exportaciones sin importar el orden .set()/.from(). */
+    try {
+      if (!root || !root.querySelectorAll) return;
+      var els = [root].concat([].slice.call(root.querySelectorAll('*')));
+      var Acentos = [
+        { sel: 'th', bg: '#ede9fe', col: '#312e81', bd: '#ddd6fe' },
+        { sel: '.problem-number', bg: '#4c1d95', col: '#ffffff', bd: '' },
+        { sel: '.rubrica h4', bg: '#4c1d95', col: '#ffffff', bd: '' },
+        { sel: '.rubric h3', bg: '#4c1d95', col: '#ffffff', bd: '' },
+        { sel: '.rubric-table th', bg: '#ede9fe', col: '#312e81', bd: '#ddd6fe' },
+        { sel: '.level-1', bg: '#f8d7da', col: '#721c24', bd: '' },
+        { sel: '.level-2', bg: '#fff3cd', col: '#856404', bd: '' },
+        { sel: '.level-3', bg: '#d4edda', col: '#155724', bd: '' },
+        { sel: '.level-4', bg: '#cce5ff', col: '#004085', bd: '' },
+        { sel: '.level-5', bg: '#d1ecf1', col: '#0c5460', bd: '' },
+        { sel: '.badge', bg: '#e2e8f0', col: '#334155', bd: '' },
+        { sel: '.variables-tag', bg: '#d1fae5', col: '#065f46', bd: '#a7f3d0' }
+      ];
+      els.forEach(function (el) {
+        var s = el.style;
+        s.animation = 'none'; s.transition = 'none';
+        s.opacity = '1'; s.visibility = 'visible';
+        s.textShadow = 'none'; s.boxShadow = 'none';
+        s.filter = 'none'; s.backdropFilter = 'none';
+        s.maxHeight = 'none'; s.overflow = 'visible';
+        var tag = el.tagName;
+        var cls = ' ' + (typeof el.className === 'string' ? el.className : '') + ' ';
+        var esTexto = /^(P|DIV|SPAN|LI|UL|OL|TD|TH|TABLE|TR|TBODY|THEAD|SUMMARY|DETAILS|H1|H2|H3|H4|H5|H6|STRONG|B|EM|SMALL|LABEL|SECTION|HEADER|FOOTER|FIGURE|FIGCAPTION|BLOCKQUOTE|DT|DD)$/.test(tag);
+        if (esTexto) {
+          s.color = '#1f2937';
+          s.webkitTextFillColor = '#1f2937';
+          s.backgroundImage = 'none';
+          s.backgroundColor = '#ffffff';
+          s.borderColor = '#d1d5db';
+        }
+        if (tag === 'DETAILS') el.open = true;
+        if (/content|body|soluc/i.test(cls) && (tag === 'DIV' || tag === 'SECTION')) {
+          s.display = 'block';
+        }
+        if (/soluc|ejemplo|resultado/i.test(cls)) {
+          s.backgroundColor = '#ecfdf5';
+          s.borderColor = '#a7f3d0';
+        }
+        if (tag === 'SUMMARY' || /header|titulo|title/i.test(cls)) {
+          s.color = '#312e81';
+          s.webkitTextFillColor = '#312e81';
+        }
+        for (var i = 0; i < Acentos.length; i++) {
+          var a = Acentos[i];
+          var m = false;
+          try { m = el.matches(a.sel); } catch (e) { m = false; }
+          if (m) {
+            s.backgroundColor = a.bg;
+            s.color = a.col;
+            s.webkitTextFillColor = a.col;
+            if (a.bd) s.borderColor = a.bd;
+          }
+        }
+      });
+    } catch (e) {}
+  };
+
+  function parchar() {
+    if (typeof window.html2pdf !== 'function' || window.html2pdf.__unifPatched) return;
+    var _h = window.html2pdf;
+    /* FIX-PDF-SCROLL: la cadena del worker arranca con .from()/.set(); hay que
+       estar arriba ANTES de crear el worker o html2canvas captura en blanco. */
+    function conTop() {
+      try {
+        /* behavior:'instant' explícito: NO consulta el CSS (scroll-behavior:smooth
+           del documento) y por tanto siempre salta al instante. */
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      } catch (e) {
+        try { window.scrollTo(0, 0); } catch (e2) {}
+      }
+      return _h.apply(this, arguments);
+    }
+    Object.keys(_h).forEach(function (k) { try { conTop[k] = _h[k]; } catch (e) {} });
+    /* Tema claro del clon en TODOS los workers (los métodos devuelven workers nuevos) */
+    var W = _h.Worker;
+    if (W && W.prototype && typeof W.prototype.from === 'function') {
+      var _from = W.prototype.from;
+      W.prototype.from = function (src, type) {
+        try {
+          if (src && src.nodeType === 1 && src !== document.body) {
+            window.__unifTemaClaro(src);
+            /* marcar el clon Y el contenedor: las CLASES sí viajan al iframe de
+               html2canvas; html2pdf mueve el clon a html2pdf__container para render */
+            src.classList.add('unif-pdf-root');
+            var t = (src.style && src.style.left === '-9999px') ? src
+                  : (src.parentElement && src.parentElement.style && src.parentElement.style.left === '-9999px' ? src.parentElement : null);
+            if (t && t.classList) t.classList.add('unif-pdf-temp');
+          }
+        } catch (e) {}
+        return _from.call(this, src, type);
+      };
+      var _toPdf = W.prototype.toPdf;
+      W.prototype.toPdf = function () {
+        try {
+          var opt = this.prop && this.prop.opt;
+          /* contenidos muy largos: reducir escala para no superar los límites de canvas */
+          var cont = this.prop && (this.prop.container || this.prop.src);
+          if (cont && cont.nodeType === 1 && opt && opt.html2canvas && opt.html2canvas.scale > 1) {
+            var alto = 0;
+            try { alto = Math.max(cont.scrollHeight || 0, Math.round(cont.getBoundingClientRect().height)); } catch (e) {}
+            if (alto > 2200) opt.html2canvas.scale = 1;
+          }
+          if (opt && opt.html2canvas && typeof opt.html2canvas === 'object') {
+            var prev = opt.html2canvas.onclone;
+            opt.html2canvas.onclone = function (doc) {
+              try {
+                var rootEl = doc.querySelector('.unif-pdf-root');
+                if (rootEl) {
+                  var Acentos = [
+                    { sel: 'th', bg: '#ede9fe', col: '#312e81', bd: '#ddd6fe' },
+                    { sel: '.problem-number', bg: '#4c1d95', col: '#ffffff', bd: '' },
+                    { sel: '.rubrica h4', bg: '#4c1d95', col: '#ffffff', bd: '' },
+                    { sel: '.rubric h3', bg: '#4c1d95', col: '#ffffff', bd: '' },
+                    { sel: '.rubric-table th', bg: '#ede9fe', col: '#312e81', bd: '#ddd6fe' },
+                    { sel: '.level-1', bg: '#f8d7da', col: '#721c24', bd: '' },
+                    { sel: '.level-2', bg: '#fff3cd', col: '#856404', bd: '' },
+                    { sel: '.level-3', bg: '#d4edda', col: '#155724', bd: '' },
+                    { sel: '.level-4', bg: '#cce5ff', col: '#004085', bd: '' },
+                    { sel: '.level-5', bg: '#d1ecf1', col: '#0c5460', bd: '' },
+                    { sel: '.badge', bg: '#e2e8f0', col: '#334155', bd: '' },
+                    { sel: '.variables-tag', bg: '#d1fae5', col: '#065f46', bd: '#a7f3d0' }
+                  ];
+                  var els = [rootEl].concat([].slice.call(rootEl.querySelectorAll('*')));
+                  els.forEach(function (el) {
+                    var s = el.style;
+                    s.animation = 'none'; s.transition = 'none';
+                    s.opacity = '1'; s.visibility = 'visible';
+                    s.textShadow = 'none'; s.boxShadow = 'none';
+                    s.filter = 'none'; s.backdropFilter = 'none';
+                    s.maxHeight = 'none'; s.overflow = 'visible';
+                    var tag = el.tagName;
+                    var cls = ' ' + (typeof el.className === 'string' ? el.className : '') + ' ';
+                    var esTexto = /^(P|DIV|SPAN|LI|UL|OL|TD|TH|TABLE|TR|TBODY|THEAD|SUMMARY|DETAILS|H1|H2|H3|H4|H5|H6|STRONG|B|EM|SMALL|LABEL|SECTION|HEADER|FOOTER|FIGURE|FIGCAPTION|BLOCKQUOTE|DT|DD)$/.test(tag);
+                    if (esTexto) {
+                      s.color = '#1f2937';
+                      s.webkitTextFillColor = '#1f2937';
+                      s.backgroundImage = 'none';
+                      s.backgroundColor = '#ffffff';
+                      s.borderColor = '#d1d5db';
+                    }
+                    if (tag === 'DETAILS') el.open = true;
+                    if (/content|body|soluc/i.test(cls) && (tag === 'DIV' || tag === 'SECTION')) {
+                      s.display = 'block';
+                    }
+                    if (/soluc|ejemplo|resultado/i.test(cls)) {
+                      s.backgroundColor = '#ecfdf5';
+                      s.borderColor = '#a7f3d0';
+                    }
+                    if (tag === 'SUMMARY' || /header|titulo|title/i.test(cls)) {
+                      s.color = '#312e81';
+                      s.webkitTextFillColor = '#312e81';
+                    }
+                    for (var i = 0; i < Acentos.length; i++) {
+                      var a = Acentos[i];
+                      var m = false;
+                      try { m = el.matches(a.sel); } catch (e) { m = false; }
+                      if (m) {
+                        s.backgroundColor = a.bg;
+                        s.color = a.col;
+                        s.webkitTextFillColor = a.col;
+                        if (a.bd) s.borderColor = a.bd;
+                      }
+                    }
+                  });
+                }
+              } catch (e) {}
+              if (typeof prev === 'function') prev(doc);
+            };
+          }
+        } catch (e) {}
+        return _toPdf.apply(this, arguments);
+      };
+    }
+    window.html2pdf = conTop;
+    conTop.__unifPatched = true;
+  }
+  parchar();
+  document.addEventListener('DOMContentLoaded', parchar);
+})();
+</script>
+
+<script>
+/* ===== MEJORA-FLUJO-INDEX: flujo índice → acordeón → volver al índice ===== */
+(function () {
+  'use strict';
+  var SEL = '.exercise-card';
+  var DETAILS = false;
+  var VUELTA = null;  // acordeón abierto desde el índice
+  var ITEM = null;    // enlace del índice que lo abrió
+
+  function abierto(el) {
+    if (!el) return false;
+    if (DETAILS) return el.open;
+    if (el.classList.contains('active') || el.classList.contains('expanded')) return true;
+    return !!el.querySelector('.accordion-header.active, .accordion-content.active');
+  }
+
+  function volverAlIndice() {
+    var dest = (ITEM && !ITEM.classList.contains('unif-hidden')) ? ITEM : document.querySelector('.unif-index');
+    VUELTA = null; ITEM = null;
+    if (!dest) return;
+    dest.scrollIntoView({ behavior: 'smooth', block: dest.classList.contains('unif-index') ? 'start' : 'center' });
+  }
+
+  // 1) Recordar qué acordeón se abre desde el índice
+  document.querySelectorAll('a.unif-index-item').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var t = document.querySelector(a.getAttribute('href') || '');
+      VUELTA = (t && (DETAILS || t.matches(SEL))) ? t : null;
+      ITEM = a;
+    }, true);
+  });
+
+  // 2) Al cerrar ese acordeón, volver al índice
+  if (DETAILS) {
+    document.querySelectorAll('details[data-cat]').forEach(function (d) {
+      d.addEventListener('toggle', function () {
+        if (!d.open) {
+          if (d === VUELTA) volverAlIndice();
+        } else if (d !== VUELTA) {
+          VUELTA = null; ITEM = null;
+        }
+      });
+    });
+  } else {
+    document.addEventListener('click', function (e) {
+      if (!e.target || !e.target.closest) return;
+      var card = e.target.closest(SEL);
+      if (!card) return;
+      if (card === VUELTA) {
+        setTimeout(function () {
+          if (VUELTA === card && !abierto(card)) volverAlIndice();
+        }, 80);
+      } else {
+        VUELTA = null; ITEM = null;  // interacción manual con otro acordeón
+      }
+    }, true);
+  }
+
+  // 3) Todos los acordeones de problema inician replegados (red de seguridad)
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.problem-accordion, .exercise-card, .problema, .problem-card').forEach(function (el) {
+      el.classList.remove('active', 'expanded');
+      var h = el.querySelector('.accordion-header.active');
+      if (h) h.classList.remove('active');
+      var c = el.querySelector('.accordion-content.active');
+      if (c) c.classList.remove('active');
+    });
+    document.querySelectorAll('details[data-cat]').forEach(function (d) { d.open = false; });
+  });
+})();
+</script>
+
+</body>
+</html>
