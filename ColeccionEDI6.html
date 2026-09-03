@@ -327,27 +327,6 @@ body > div[style*="-9999"] .pdf-btn, body > div[style*="750px"] .pdf-btn { displ
     --border: rgba(148, 163, 184, 0.14);
 }
 
-body > header {
-    border-radius: 0 0 22px 22px;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    padding: 2.4rem 1rem;
-    margin-bottom: 2rem;
-}
-
-/* ===== T11: ENCABEZADO UNIFICADO — panel de 1168px idéntico a EDI1/3/4 ===== */
-body > header {
-    max-width: 1168px;
-    margin: 28px auto 2.2rem;
-    border: 1px solid rgba(139, 92, 246, 0.28);
-    border-radius: 22px;
-    padding: 2.7rem 1.5rem 2.5rem;
-}
-@media (max-width: 1200px) {
-    body > header { margin-left: 16px; margin-right: 16px; }
-}
-body > header .container { max-width: none; margin: 0; padding: 0; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0.5rem 1rem 1rem; }
 
 h2 { font-family: var(--font-display); }
@@ -453,12 +432,26 @@ p, li { color: var(--text-secondary); }
     font-weight: 600;
 }
 .toggle-icon {
-    color: var(--cyan);
-    transition: transform 0.3s ease;
     flex-shrink: 0;
-    filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.5));
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    color: var(--cyan);
+    background: var(--panel-strong);
+    border: 1px solid var(--stroke);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s, box-shadow 0.3s;
 }
-.problem-card.expanded .toggle-icon { transform: rotate(180deg); }
+.problem-card.expanded .toggle-icon {
+    transform: rotate(180deg);
+    background: var(--grad-main);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 0 18px rgba(139, 92, 246, 0.55);
+}
 
 /* Contenido (mecánica max-height intacta, ampliada para no recortar rúbricas) */
 .problem-content {
@@ -529,7 +522,7 @@ body > footer p { color: var(--text-muted); margin-bottom: 0.3rem; }
 
 @media (max-width: 768px) {
     .container { padding: 0.5rem 0.75rem; }
-    header h1 { font-size: 1.6rem; }
+    header h1 { font-size: 1.7rem; }
     .problem-content { padding: 0 14px; }
     .problem-card.expanded .problem-content { padding-bottom: 14px; }
     .rubric-table { font-size: 0.75rem; }
@@ -537,7 +530,7 @@ body > footer p { color: var(--text-muted); margin-bottom: 0.3rem; }
 }
 @media (max-width: 480px) {
     .problem-header { flex-direction: column; align-items: flex-start; }
-    header h1 { font-size: 1.6rem; }
+    header h1 { font-size: 1.5rem; }
 }
   
 /* ============================================================
@@ -640,7 +633,9 @@ html { scroll-behavior: smooth; }
 }
 .unif-guia summary::-webkit-details-marker { display: none; }
 .unif-guia summary::after {
-    content: '+';
+    content: '\f078';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
     margin-left: auto;
     flex-shrink: 0;
     width: 30px;
@@ -649,17 +644,16 @@ html { scroll-behavior: smooth; }
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
-    font-weight: 700;
+    font-size: 0.95rem;
     color: var(--cyan);
     background: var(--panel-strong);
     border: 1px solid var(--stroke);
-    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s, box-shadow 0.3s;
 }
 .unif-guia summary:hover { background: rgba(52, 211, 153, 0.10); color: #A7F3D0; }
 .unif-guia[open] summary { border-bottom: 1px solid var(--stroke-soft); }
 .unif-guia[open] summary::after {
-    content: '\2212';
+    content: '\f078';
     transform: rotate(180deg);
     color: #06281C;
     background: linear-gradient(90deg, #34D399, #22D3EE);
@@ -911,15 +905,15 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 
 /* Barra de filtros integrada sobre el índice */
 .unif-index .unif-filters { margin: 2px 0 16px; }
+/* ===== T11c: ENCABEZADO IDÉNTICO A EDI1 (panel 1168px con aurora) ===== */
+body > header { max-width: 1168px; margin-left: auto; margin-right: auto; }
 </style>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 </head>
 <body>
     <header>
-        <div class="container">
-            <h1><i class="fas fa-microchip"></i> Problemas de Electrónica Digital (VI) - 4º ESO</h1>
-            </div>
+        <h1><i class="fas fa-microchip"></i> Problemas de Electrónica Digital (VI) - 4º ESO</h1>
     </header>
 
     <section class="unif-index" aria-label="Índice de problemas">
@@ -978,12 +972,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <div class="container" id="problems-container">
         </div>
 
-    <footer>
-        <div class="container">
-            <p>Documento basado en los Criterios de Evaluación de Tecnología – 4º ESO (Orden ENS/449/2022)</p>
-            <p>© 2025 – Recursos Educativos de Tecnología</p>
-        </div>
-    </footer>
 
     <script>
         // Los datos de los problemas se mantienen igual
@@ -2189,11 +2177,8 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
                     <div class="problem-number">Problema ${problem.number}</div>
                     <h3 class="problem-title">${problem.title}</h3>
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <div class="variables-tag">${problem.variables} variables</div>
-                        <button class="pdf-btn" onclick="event.stopPropagation(); generatePDF(this, ${problem.number})">Exportar PDF</button>
-                        <svg class="toggle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="6,9 12,15 18,9"></polyline>
-                        </svg>
+                            <button class="pdf-btn" onclick="event.stopPropagation(); generatePDF(this, ${problem.number})">Exportar PDF</button>
+                        <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
                     </div>
                 </div>
                 <div class="problem-content">
