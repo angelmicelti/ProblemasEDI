@@ -326,27 +326,6 @@ body > div[style*="-9999"] .pdf-btn, body > div[style*="750px"] .pdf-btn { displ
     --danger: #FB7185;
 }
 
-/* Cabecera a sangre completa (body > header) */
-body > header {
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    padding: 2.4rem 1.25rem 2.2rem;
-    margin-bottom: 0;
-}
-
-/* ===== T11: ENCABEZADO UNIFICADO — panel de 1168px idéntico a EDI1/3/4 ===== */
-body > header {
-    max-width: 1168px;
-    margin: 28px auto 2.2rem;
-    border: 1px solid rgba(139, 92, 246, 0.28);
-    border-radius: 22px;
-    padding: 2.7rem 1.5rem 2.5rem;
-}
-@media (max-width: 1200px) {
-    body > header { margin-left: 16px; margin-right: 16px; }
-}
 main { max-width: 1100px; margin: 0 auto; padding: 1.6rem 1rem 2.5rem; }
 
 .intro {
@@ -457,19 +436,30 @@ main { max-width: 1100px; margin: 0 auto; padding: 1.6rem 1rem 2.5rem; }
 }
 .exercise-header:hover { background: rgba(148, 163, 184, 0.06); }
 .exercise-header::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 7px solid var(--cyan);
-    transition: transform 0.3s ease;
+    content: '\f078';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
-    margin-left: 0.5rem;
-    filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.6));
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 0.95rem;
+    color: var(--cyan);
+    background: var(--panel-strong);
+    border: 1px solid var(--stroke);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s, box-shadow 0.3s;
+    margin-left: 0.25rem;
 }
-.exercise-card.active .exercise-header::after { transform: rotate(180deg); }
+.exercise-card.active .exercise-header::after {
+    transform: rotate(180deg);
+    background: var(--grad-main);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 0 18px rgba(139, 92, 246, 0.55);
+}
 .exercise-title {
     font-family: var(--font-display);
     font-size: 0.99rem;
@@ -602,7 +592,7 @@ body > footer {
 
 @media (max-width: 600px) {
     body > header { padding: 1.8rem 1rem 1.7rem; }
-    body > header h1 { font-size: 1.6rem; }
+    body > header h1 { font-size: 1.5rem; }
     .intro { padding: 0.9rem 1rem; }
     .exercise-meta { max-width: 50%; }
     .rubrica-table { font-size: 0.72rem; }
@@ -708,7 +698,9 @@ html { scroll-behavior: smooth; }
 }
 .unif-guia summary::-webkit-details-marker { display: none; }
 .unif-guia summary::after {
-    content: '+';
+    content: '\f078';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
     margin-left: auto;
     flex-shrink: 0;
     width: 30px;
@@ -717,17 +709,16 @@ html { scroll-behavior: smooth; }
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
-    font-weight: 700;
+    font-size: 0.95rem;
     color: var(--cyan);
     background: var(--panel-strong);
     border: 1px solid var(--stroke);
-    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s, box-shadow 0.3s;
 }
 .unif-guia summary:hover { background: rgba(52, 211, 153, 0.10); color: #A7F3D0; }
 .unif-guia[open] summary { border-bottom: 1px solid var(--stroke-soft); }
 .unif-guia[open] summary::after {
-    content: '\2212';
+    content: '\f078';
     transform: rotate(180deg);
     color: #06281C;
     background: linear-gradient(90deg, #34D399, #22D3EE);
@@ -979,6 +970,8 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 
 /* Barra de filtros integrada sobre el índice */
 .unif-index .unif-filters { margin: 2px 0 16px; }
+/* ===== T11c: ENCABEZADO IDÉNTICO A EDI1 (panel 1168px con aurora) ===== */
+body > header { max-width: 1168px; margin-left: auto; margin-right: auto; }
 </style>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="icon" href="favicon.ico" type="image/x-icon"/>
@@ -1049,10 +1042,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-1" data-cat="2vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 1. Luz de pasillo con dos conmutadores</h3>
-        <div class="exercise-meta">
-          <span>2 variables</span>
-          <span>Domótica básica</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un pasillo hay una lámpara que puede encenderse desde dos puntos diferentes: la entrada (A) y el final del pasillo (B). Se desea que la luz esté encendida cuando exactamente uno de los conmutadores esté en posición de encendido, y apagada cuando los dos estén en la misma posición.</p>
@@ -1113,10 +1103,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-2" data-cat="2vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 2. Timbre con modo noche</h3>
-        <div class="exercise-meta">
-          <span>2 variables</span>
-          <span>Confort y descanso</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En una vivienda se quiere que el timbre no suene durante la noche para no molestar. Se instala un interruptor de “modo noche” (N) que, cuando está activado, anula el timbre aunque pulsen el botón (T).</p>
@@ -1177,10 +1164,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-3" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 3. Riego automático del jardín</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Ahorro de agua</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un jardín se quiere automatizar el riego de forma que se tenga en cuenta la humedad del suelo, el nivel del depósito de agua y el horario nocturno para evitar evaporación excesiva.</p>
@@ -1237,10 +1221,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-4" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 4. Alarma de ventana con modo mascotas</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Seguridad en casa</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>Una alarma se activa cuando una ventana se abre y el sistema está armado. Sin embargo, existe un “modo mascotas” que permite abrir ligeramente una ventana sin disparar la alarma cuando está activado.</p>
@@ -1297,10 +1278,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-5" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 5. Ventilación automática en la cocina</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Salud y confort</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En una cocina se instala un sistema de ventilación automática. Se quiere que el extractor se encienda si se da cualquiera de estas condiciones: hay mucho vapor, la temperatura es alta o la placa de cocina está encendida.</p>
@@ -1356,10 +1334,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-6" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 6. Luz de escritorio para estudiar</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Vida académica</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>Una luz de escritorio inteligente se enciende automáticamente para ayudar a estudiar. Se desea que se encienda solo cuando el alumno está delante del escritorio, hay poca luz natural y está dentro del horario de estudio configurado.</p>
@@ -1415,10 +1390,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-7" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 7. Control de acceso a garaje comunitario</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Movilidad diaria</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un garaje comunitario se quiere que la barrera se abra automáticamente solo en determinadas condiciones. El sistema tiene en cuenta si hay plaza libre, si el coche pertenece a un abonado, si la barrera está cerrada y si hay una situación de emergencia.</p>
@@ -1476,10 +1448,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-8" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 8. Ascensor con prioridad de accesibilidad</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Accesibilidad</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un edificio se diseña un ascensor que da prioridad a pisos accesibles cuando hay una persona con movilidad reducida. El sistema registra si se ha pulsado el botón de planta, si se detecta peso excesivo, si el ascensor está en modo mantenimiento y si la planta solicitada es accesible.</p>
@@ -1538,10 +1507,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-9" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 9. Control de calefacción en el aula</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Centro educativo</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un aula se quiere controlar la calefacción de forma automática. El sistema tiene en cuenta si la temperatura es baja, si las ventanas están cerradas, si hay alumnado presente y si se está en horario lectivo.</p>
@@ -1600,10 +1566,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-10" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 10. Sistema domótico de ahorro energético en casa</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Hogar inteligente</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En una vivienda se instala un sistema domótico que apaga automáticamente las luces y algunos enchufes cuando la casa se queda vacía, siempre que las ventanas estén cerradas, el modo vacaciones esté activado y la alarma esté encendida.</p>
@@ -1662,10 +1625,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-11" data-cat="2vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 11. Luz del baño con sensor de presencia</h3>
-        <div class="exercise-meta">
-          <span>2 variables</span>
-          <span>Ahorro energético</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un baño se instala una luz controlada por un sensor de presencia y un interruptor general. La luz solo debe encenderse si el interruptor general está encendido y el sensor detecta presencia.</p>
@@ -1726,10 +1686,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-12" data-cat="2vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 12. Deshumidificador con control automático</h3>
-        <div class="exercise-meta">
-          <span>2 variables</span>
-          <span>Salud y confort</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En una habitación se instala un deshumidificador que solo debe encenderse cuando la humedad es alta y la ventana está cerrada para que el proceso sea eficiente.</p>
@@ -1790,10 +1747,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-13" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 13. Iluminación del portal con reloj astronómico</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Edificio residencial</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En el portal de una comunidad se quiere que la luz se encienda automáticamente cuando sea de noche o cuando haya poca luz, pero solo si el reloj astronómico indica que es hora de iluminación y el interruptor de mantenimiento no está apagado.</p>
@@ -1852,10 +1806,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-14" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 14. Sistema de aviso de aula abierta</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Centro educativo</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un instituto se quiere instalar un sistema que avise en conserjería cuando una puerta de aula se queda abierta sin alumnado dentro, fuera del horario lectivo, por motivos de seguridad.</p>
@@ -1910,10 +1861,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-15" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 15. Control de ventiladores en un invernadero escolar</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Proyecto escolar</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un invernadero del centro educativo, el alumnado diseña un sistema que enciende ventiladores para regular el clima. Deben encenderse cuando la temperatura sea alta o la humedad interior sea muy elevada, pero solo si el sistema está activado desde el panel de control.</p>
@@ -1970,10 +1918,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-16" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 16. Aviso de uso del laboratorio de tecnología</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Organización de espacios</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En el laboratorio de tecnología se quiere que se encienda un piloto en la puerta cuando el laboratorio está ocupado y se están utilizando herramientas peligrosas, para que el profesorado y conserjería lo sepan.</p>
@@ -2026,10 +1971,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-17" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 17. Sistema de control de persianas inteligentes</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Confort térmico</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un salón se instalan persianas inteligentes que se bajan automáticamente para evitar sobrecalentamiento. El sistema tiene en cuenta la intensidad solar, la temperatura interior, si hay personas en la habitación y si el usuario ha activado el modo automático.</p>
@@ -2083,10 +2025,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-18" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 18. Sistema de recarga de bicicletas eléctricas en un instituto</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Ecotransporte</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>Un instituto quiere instalar un sistema de recarga de bicicletas eléctricas que favorezca la movilidad sostenible. Se desea que los puntos de carga se activen automáticamente solo en determinadas condiciones.</p>
@@ -2139,10 +2078,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-19" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 19. Control automático de iluminación en biblioteca</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Espacios de estudio</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En la biblioteca del centro se quiere automatizar el encendido de la iluminación general. El sistema tiene en cuenta la presencia, la luz natural, el horario de apertura y si se ha activado un modo “evento especial”.</p>
@@ -2196,10 +2132,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-20" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 20. Control de un ventilador de techo en dormitorio</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Confort en el hogar</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>Un ventilador de techo en un dormitorio dispone de varios condicionantes: interruptor general, temperatura alta, presencia en la habitación y modo “ruido bajo” para la noche (que solo permite funcionar en velocidad baja, pero asumimos que activa igualmente el ventilador).</p>
@@ -2253,10 +2186,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-21" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 21. Control de una lámpara de lectura en la cama</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Hábitos de lectura</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>Se diseña una lámpara de lectura junto a la cama que puede encenderse solo si se da la combinación adecuada de tres condiciones: el usuario ha pulsado el botón de encendido, la luz ambiental es baja y no se ha activado el modo “descanso total” en el móvil (que apaga todas las luces).</p>
@@ -2309,10 +2239,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-22" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 22. Control de una fuente decorativa en un patio</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Espacios exteriores</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En el patio de una casa o del centro se instala una fuente decorativa. Se quiere que funcione solo cuando es horario diurno, hay personas presentes en el patio y el depósito de agua está suficientemente lleno.</p>
@@ -2364,10 +2291,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-23" data-cat="2vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 23. Señal de “no molestar” en un despacho</h3>
-        <div class="exercise-meta">
-          <span>2 variables</span>
-          <span>Comunicación en espacios compartidos</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un despacho se coloca un indicador luminoso de “no molestar”. La persona que trabaja dentro puede activar un interruptor para encender el indicador, pero también se enciende automáticamente cuando está en una videollamada.</p>
@@ -2427,10 +2351,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-24" data-cat="3vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 24. Control de alarmas de un pequeño huerto urbano</h3>
-        <div class="exercise-meta">
-          <span>3 variables</span>
-          <span>Huerto escolar o comunitario</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un huerto urbano gestionado por un grupo de vecinos o por el alumnado, se quiere activar una alarma en el móvil cuando se combina el riesgo de helada y la falta de riego, pero solo si el sistema está en modo vigilancia.</p>
@@ -2483,10 +2404,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     <article class="exercise-card" id="prob-25" data-cat="4vars">
       <div class="exercise-header">
         <h3 class="exercise-title">Problema 25. Control de carga de dispositivos en un aula de informática</h3>
-        <div class="exercise-meta">
-          <span>4 variables</span>
-          <span>Gestión de recursos TIC</span>
-        </div>
+        <div class="exercise-meta"></div>
       </div>
       <div class="exercise-body">
         <p>En un aula de informática hay varias regletas inteligentes para cargar portátiles y tabletas. Se quiere que las regletas se activen solo cuando sea horario lectivo, haya dispositivos conectados, el nivel de batería medio sea bajo y el responsable TIC haya activado el modo de carga desde un panel.</p>
@@ -2538,9 +2456,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
   </section>
 </main>
 
-<footer>
-  Documento HTML responsivo para trabajo de aula en Tecnología 4.º ESO. Adaptable a ordenador, tablet y móvil.
-</footer>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
