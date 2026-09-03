@@ -324,27 +324,6 @@ body > div[style*="-9999"] .pdf-btn, body > div[style*="750px"] .pdf-btn { displ
     --danger: #E879F9;
 }
 
-/* Cabecera a sangre completa */
-body > header {
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    padding: 2.4rem 1rem;
-    margin-bottom: 2rem;
-}
-
-/* ===== T11: ENCABEZADO UNIFICADO — panel de 1168px idéntico a EDI1/3/4 ===== */
-body > header {
-    max-width: 1168px;
-    margin: 28px auto 2.2rem;
-    border: 1px solid rgba(139, 92, 246, 0.28);
-    border-radius: 22px;
-    padding: 2.7rem 1.5rem 2.5rem;
-}
-@media (max-width: 1200px) {
-    body > header { margin-left: 16px; margin-right: 16px; }
-}
 
 .container {
     max-width: 1000px;
@@ -429,18 +408,29 @@ body > header {
 .exercise-header:hover h2 { color: #C7D2FE; }
 .header-actions { display: flex; align-items: center; gap: 14px; }
 .arrow-icon {
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 7px solid var(--cyan);
-    transition: transform 0.3s ease;
-    filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.6));
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    color: var(--cyan);
+    background: var(--panel-strong);
+    border: 1px solid var(--stroke);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s, box-shadow 0.3s;
 }
 
 /* Estados activos (mecánica intacta) */
 .exercise-card.active .exercise-header { border-bottom: 1px solid var(--stroke-soft); }
-.exercise-card.active .arrow-icon { transform: rotate(180deg); }
+.exercise-card.active .arrow-icon {
+    transform: rotate(180deg);
+    background: var(--grad-main);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 0 18px rgba(139, 92, 246, 0.55);
+}
 .exercise-body { display: none; padding: 1.25rem 1.4rem 1.4rem; animation: fadeIn 0.3s ease; }
 .exercise-card.active .exercise-body { display: block; }
 
@@ -601,7 +591,9 @@ html { scroll-behavior: smooth; }
 }
 .unif-guia summary::-webkit-details-marker { display: none; }
 .unif-guia summary::after {
-    content: '+';
+    content: '\f078';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
     margin-left: auto;
     flex-shrink: 0;
     width: 30px;
@@ -610,17 +602,16 @@ html { scroll-behavior: smooth; }
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
-    font-weight: 700;
+    font-size: 0.95rem;
     color: var(--cyan);
     background: var(--panel-strong);
     border: 1px solid var(--stroke);
-    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s, box-shadow 0.3s;
 }
 .unif-guia summary:hover { background: rgba(52, 211, 153, 0.10); color: #A7F3D0; }
 .unif-guia[open] summary { border-bottom: 1px solid var(--stroke-soft); }
 .unif-guia[open] summary::after {
-    content: '\2212';
+    content: '\f078';
     transform: rotate(180deg);
     color: #06281C;
     background: linear-gradient(90deg, #34D399, #22D3EE);
@@ -788,7 +779,7 @@ body > div[style*="-9999"] details > summary::after { display: none !important; 
   
 /* ===== ANCHURA UNIFICADA: columna única (cajas visibles de 1168px) ===== */
 .container { max-width: 1200px; padding-left: 16px; padding-right: 16px; }
-body > section.unif-index, body > details.unif-guia, body > .unif-filters {
+body > header, body > section.unif-index, body > details.unif-guia, body > .unif-filters {
     max-width: 1168px; margin-left: auto; margin-right: auto;
 }
   
@@ -872,6 +863,8 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 
 /* Barra de filtros integrada sobre el índice */
 .unif-index .unif-filters { margin: 2px 0 16px; }
+/* ===== T11c: ENCABEZADO IDÉNTICO A EDI1 (panel 1168px con aurora) ===== */
+body > header { max-width: 1168px; margin-left: auto; margin-right: auto; }
 </style>
   
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
@@ -943,7 +936,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 1: Sistema de Alarma para Casa (2 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob1')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -987,7 +980,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 2: Control de Riego Automático (2 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob2')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1031,7 +1024,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 3: Semáforo Inteligente (3 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob3')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1075,7 +1068,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 4: Sistema de Iluminación Automática (3 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob4')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1119,7 +1112,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 5: Ascensor Automático (3 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob5')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1163,7 +1156,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 6: Puerta Automática de Garage (3 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob6')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1207,7 +1200,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 7: Sistema de Seguridad para Caja Fuerte (4 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob7')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1251,7 +1244,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 8: Sistema de Climatización Inteligente (4 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob8')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1295,7 +1288,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 9: Robot de Limpieza Autónomo (4 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob9')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1339,7 +1332,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 10: Sistema de Emergencia para Ancianos (4 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob10')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1383,7 +1376,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 11: Control de Acceso a un Edificio (2 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob11')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1427,7 +1420,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 12: Sistema de Ventilación Automática (2 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob12')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1471,7 +1464,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 13: Sistema de Iluminación de Emergencia (3 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob13')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1515,7 +1508,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 14: Sistema de Alerta para Incendios (3 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob14')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1559,7 +1552,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 15: Sistema de Control de Acceso a un Parking (3 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob15')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1603,7 +1596,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 16: Sistema de Riego Inteligente para Jardín (4 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob16')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1647,7 +1640,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 17: Sistema de Calefacción para Invernadero (4 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob17')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1691,7 +1684,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 18: Sistema de Alerta para Robo en Vivienda (4 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob18')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1735,7 +1728,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 19: Sistema de Control de Consumo Eléctrico (3 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob19')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1779,7 +1772,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 20: Sistema de Avisos para Medicación (3 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob20')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1823,7 +1816,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 21: Sistema de Alerta para Inundaciones (4 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob21')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1867,7 +1860,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 22: Sistema de Control de Acceso a un Laboratorio (4 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob22')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1911,7 +1904,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 23: Sistema de Alerta para Fugas de Gas (3 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob23')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1955,7 +1948,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 24: Sistema de Control de Iluminación en Aulas (4 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob24')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
@@ -1999,7 +1992,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <h2>Problema 25: Sistema de Gestión de Residuos Inteligente (4 variables)</h2>
             <div class="header-actions">
               <button class="pdf-btn" onclick="generarPDF(event, 'prob25')">Exportar PDF</button>
-              <div class="arrow-icon"></div>
+              <div class="arrow-icon"><i class="fas fa-chevron-down"></i></div>
             </div>
           </div>
           <div class="exercise-body">
