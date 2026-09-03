@@ -326,7 +326,7 @@ body > div[style*="-9999"] .pdf-btn, body > div[style*="750px"] .pdf-btn { displ
 }
 
 body { padding: 20px; }
-.container { max-width: 1200px; margin: 0 auto; padding: 0 5px 30px; }
+.container { max-width: 1200px; margin: 0 auto; padding: 10px 5px 30px; }
 
 .intro {
     background: linear-gradient(180deg, rgba(148, 163, 184, 0.07), rgba(148, 163, 184, 0.03));
@@ -439,11 +439,11 @@ body { padding: 20px; }
 .problema.active .problema-header h2 { color: #C7D2FE; }
 .toggle-icon {
     flex-shrink: 0;
-    font-size: 1.25rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: var(--cyan);
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -453,7 +453,7 @@ body { padding: 20px; }
     transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s, box-shadow 0.3s;
 }
 .problema.active .toggle-icon {
-    transform: rotate(45deg);
+    transform: rotate(180deg);
     color: #fff;
     background: var(--grad-main);
     border-color: transparent;
@@ -696,7 +696,9 @@ html { scroll-behavior: smooth; }
 }
 .unif-guia summary::-webkit-details-marker { display: none; }
 .unif-guia summary::after {
-    content: '+';
+    content: '\f078';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
     margin-left: auto;
     flex-shrink: 0;
     width: 30px;
@@ -705,17 +707,16 @@ html { scroll-behavior: smooth; }
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
-    font-weight: 700;
+    font-size: 0.95rem;
     color: var(--cyan);
     background: var(--panel-strong);
     border: 1px solid var(--stroke);
-    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s, box-shadow 0.3s;
 }
 .unif-guia summary:hover { background: rgba(52, 211, 153, 0.10); color: #A7F3D0; }
 .unif-guia[open] summary { border-bottom: 1px solid var(--stroke-soft); }
 .unif-guia[open] summary::after {
-    content: '\2212';
+    content: '\f078';
     transform: rotate(180deg);
     color: #06281C;
     background: linear-gradient(90deg, #34D399, #22D3EE);
@@ -882,7 +883,7 @@ body > div[style*="-9999"] details > summary::after { display: none !important; 
 
   
 /* ===== ANCHURA UNIFICADA: columna única (cajas visibles de 1168px) ===== */
-.container { max-width: 1200px; padding: 0 16px 30px; }
+.container { max-width: 1200px; padding: 10px 16px 30px; }
   
 
 
@@ -1034,7 +1035,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 1: Control de luz de escalera</h2>
 				<button class="pdf-btn" onclick="downloadPDF(event, 'problema1')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado"><p><strong>Enunciado:</strong> Se desea controlar una luz de escalera con dos interruptores, uno abajo y otro arriba. La luz debe encenderse cuando los dos interruptores están en la misma posición (arriba-arriba o abajo-abajo) y apagarse cuando están en posiciones diferentes.</p></div>
@@ -1057,7 +1058,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
              <div class="problema-header">
                 <h2>Problema 2: Alarma de coche</h2>
 				<button class="pdf-btn" onclick="downloadPDF(event, 'problema2')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado"><p><strong>Enunciado:</strong> Un coche tiene una alarma que suena si la puerta está abierta y el contacto encendido, o si se activa el interruptor de emergencia.</p></div>
@@ -1073,7 +1074,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
         </div>
 
         <div class="problema" id="problema3" data-cat="3vars">
-            <div class="problema-header"><h2>Problema 3: Sistema de riego automático</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema3')">Exportar PDF</button><span class="toggle-icon">+</span></div>
+            <div class="problema-header"><h2>Problema 3: Sistema de riego automático</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema3')">Exportar PDF</button><span class="toggle-icon"><i class="fas fa-chevron-down"></i></span></div>
             <div class="problema-content">
                 <div class="enunciado"><p><strong>Enunciado:</strong> En una finca se dispone de un sistema de riego que tiene un sensor de humedad y otro de temperatura. El sistema de riego se pone en marcha si hay poca humedad y es de día o si hay poca humedad y la temperatura es alta.</p></div>
                  <div class="solucion">
@@ -1086,7 +1087,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
         </div>
 
         <div class="problema" id="problema4" data-cat="3vars">
-            <div class="problema-header"><h2>Problema 4: Control de acceso</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema4')">Exportar PDF</button><span class="toggle-icon">+</span></div>
+            <div class="problema-header"><h2>Problema 4: Control de acceso</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema4')">Exportar PDF</button><span class="toggle-icon"><i class="fas fa-chevron-down"></i></span></div>
             <div class="problema-content">
                 <div class="enunciado"><p><strong>Enunciado:</strong> En la entrada de un edificio se ha habilitado un sistema de control de acceso, que solo permite entrar cuando se introducen los códigos 011, 101 y 110. Diseña el sistema de control necesario para ello.</p></div>
                 <div class="solucion">
@@ -1099,7 +1100,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
         </div>
 
         <div class="problema" id="problema5" data-cat="3vars">
-            <div class="problema-header"><h2>Problema 5: Semáforo peatonal</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema5')">Exportar PDF</button><span class="toggle-icon">+</span></div>
+            <div class="problema-header"><h2>Problema 5: Semáforo peatonal</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema5')">Exportar PDF</button><span class="toggle-icon"><i class="fas fa-chevron-down"></i></span></div>
             <div class="problema-content">
                 <div class="enunciado"><p><strong>Enunciado:</strong> Verde si (Botón Y No coches Y No temp) O (Botón Y Temp acabado).</p></div>
                 <div class="solucion">
@@ -1112,7 +1113,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
         </div>
 
         <div class="problema" id="problema6" data-cat="3vars">
-            <div class="problema-header"><h2>Problema 6: Horno microondas</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema6')">Exportar PDF</button><span class="toggle-icon">+</span></div>
+            <div class="problema-header"><h2>Problema 6: Horno microondas</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema6')">Exportar PDF</button><span class="toggle-icon"><i class="fas fa-chevron-down"></i></span></div>
             <div class="problema-content">
                 <div class="enunciado"><p><strong>Enunciado:</strong> Motor on si: Puerta cerrada, Temp activo y Botón inicio.</p></div>
                 <div class="solucion">
@@ -1125,7 +1126,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
         </div>
 
         <div class="problema" id="problema7" data-cat="4vars">
-            <div class="problema-header"><h2>Problema 7: Sistema de calefacción</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema7')">Exportar PDF</button><span class="toggle-icon">+</span></div>
+            <div class="problema-header"><h2>Problema 7: Sistema de calefacción</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema7')">Exportar PDF</button><span class="toggle-icon"><i class="fas fa-chevron-down"></i></span></div>
             <div class="problema-content">
                 <div class="enunciado"><p><strong>Enunciado:</strong> En una habitación se va a instalar un sistema de calefacción, que tiene cuatro sensores: temperatura, humedad, presencia y apertura de una ventana. Para su activación se tiene que cumplir que la temperatura sea baja, que la habitación esté ocupada por alguna persona, que la ventana esté cerrada y que la humedad sea baja.</p></div>
                 <div class="solucion">
@@ -1138,7 +1139,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
         </div>
 
         <div class="problema" id="problema8" data-cat="4vars">
-            <div class="problema-header"><h2>Problema 8: Alarma de incendios</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema8')">Exportar PDF</button><span class="toggle-icon">+</span></div>
+            <div class="problema-header"><h2>Problema 8: Alarma de incendios</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema8')">Exportar PDF</button><span class="toggle-icon"><i class="fas fa-chevron-down"></i></span></div>
             <div class="problema-content">
                 <div class="enunciado"><p><strong>Enunciado:</strong> Alarma si (Humo y TempAlta) O CO2 O Emergencia.</p></div>
                 <div class="solucion">
@@ -1151,7 +1152,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
         </div>
 
         <div class="problema" id="problema9" data-cat="4vars">
-            <div class="problema-header"><h2>Problema 9: Control de iluminación</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema9')">Exportar PDF</button><span class="toggle-icon">+</span></div>
+            <div class="problema-header"><h2>Problema 9: Control de iluminación</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema9')">Exportar PDF</button><span class="toggle-icon"><i class="fas fa-chevron-down"></i></span></div>
             <div class="problema-content">
                 <div class="enunciado"><p><strong>Enunciado:</strong> Luz on si (Oscuro y Movimiento) O (Interruptores distintos).</p></div>
                 <div class="solucion">
@@ -1165,7 +1166,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
         </div>
 
         <div class="problema" id="problema10" data-cat="4vars">
-            <div class="problema-header"><h2>Problema 10: Caja fuerte</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema10')">Exportar PDF</button><span class="toggle-icon">+</span></div>
+            <div class="problema-header"><h2>Problema 10: Caja fuerte</h2><button class="pdf-btn" onclick="downloadPDF(event, 'problema10')">Exportar PDF</button><span class="toggle-icon"><i class="fas fa-chevron-down"></i></span></div>
             <div class="problema-content">
                 <div class="enunciado"><p><strong>Enunciado:</strong> Abre solo con código 1010.</p></div>
                 <div class="solucion">
@@ -1181,7 +1182,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 11: Votación del jurado</h2>
                 <button class="pdf-btn" onclick="downloadPDF(event, 'problema11')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado">
@@ -1220,7 +1221,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 12: Toldo automático</h2>
                 <button class="pdf-btn" onclick="downloadPDF(event, 'problema12')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado">
@@ -1259,7 +1260,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 13: Prensa hidráulica</h2>
                 <button class="pdf-btn" onclick="downloadPDF(event, 'problema13')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado">
@@ -1291,7 +1292,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 14: Ventilador de coche</h2>
                 <button class="pdf-btn" onclick="downloadPDF(event, 'problema14')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado">
@@ -1329,7 +1330,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 15: Sistema de seguridad de dron</h2>
                 <button class="pdf-btn" onclick="downloadPDF(event, 'problema15')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado">
@@ -1359,7 +1360,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 16: Máquina expendedora</h2>
                 <button class="pdf-btn" onclick="downloadPDF(event, 'problema16')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado">
@@ -1391,7 +1392,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 17: Luz de garaje</h2>
                 <button class="pdf-btn" onclick="downloadPDF(event, 'problema17')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado">
@@ -1426,7 +1427,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 18: Cinta transportadora</h2>
                 <button class="pdf-btn" onclick="downloadPDF(event, 'problema18')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado">
@@ -1458,7 +1459,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 19: Invernadero</h2>
                 <button class="pdf-btn" onclick="downloadPDF(event, 'problema19')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado">
@@ -1490,7 +1491,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 20: Detector de mentiras</h2>
                 <button class="pdf-btn" onclick="downloadPDF(event, 'problema20')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado">
@@ -1522,7 +1523,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 21: Alarma Zonas</h2>
                 <button class="pdf-btn" onclick="downloadPDF(event, 'problema21')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado">
@@ -1556,7 +1557,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 22: Despegue cohete</h2>
                 <button class="pdf-btn" onclick="downloadPDF(event, 'problema22')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado">
@@ -1582,7 +1583,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 23: Aire Acondicionado</h2>
                 <button class="pdf-btn" onclick="downloadPDF(event, 'problema23')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado">
@@ -1617,7 +1618,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 24: Control de Calidad</h2>
                 <button class="pdf-btn" onclick="downloadPDF(event, 'problema24')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado">
@@ -1650,7 +1651,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <div class="problema-header">
                 <h2>Problema 25: Smart Home - Modo Cine</h2>
                 <button class="pdf-btn" onclick="downloadPDF(event, 'problema25')">Exportar PDF</button>
-                <span class="toggle-icon">+</span>
+                <span class="toggle-icon"><i class="fas fa-chevron-down"></i></span>
             </div>
             <div class="problema-content">
                 <div class="enunciado">
@@ -1687,9 +1688,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
             <a href="#problema25">Ir al último problema</a>
         </div>
         
-        <footer>
-            <p>Colección Ampliada de problemas de electrónica digital para 4º ESO - Curso 2025/2026</p>
-        </footer>
     </div>
     
     <script>
