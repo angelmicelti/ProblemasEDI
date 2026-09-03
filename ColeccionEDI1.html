@@ -683,7 +683,6 @@ body { padding: 20px; }
     body { padding: 12px; }
     .accordion-header { flex-direction: column; align-items: flex-start; gap: 10px; padding: 15px 16px; }
     .accordion-header h3 { font-size: 1rem; }
-    .accordion-header .accordion-toggle { display: none; }
     .accordion-content.active { padding: 15px; }
     .accordion-content { padding: 0 15px; }
     table { font-size: 0.75rem; }
@@ -791,7 +790,9 @@ html { scroll-behavior: smooth; }
 }
 .unif-guia summary::-webkit-details-marker { display: none; }
 .unif-guia summary::after {
-    content: '+';
+    content: '\f078';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
     margin-left: auto;
     flex-shrink: 0;
     width: 30px;
@@ -800,17 +801,16 @@ html { scroll-behavior: smooth; }
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
-    font-weight: 700;
+    font-size: 0.95rem;
     color: var(--cyan);
     background: var(--panel-strong);
     border: 1px solid var(--stroke);
-    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s, box-shadow 0.3s;
 }
 .unif-guia summary:hover { background: rgba(52, 211, 153, 0.10); color: #A7F3D0; }
 .unif-guia[open] summary { border-bottom: 1px solid var(--stroke-soft); }
 .unif-guia[open] summary::after {
-    content: '\2212';
+    content: '\f078';
     transform: rotate(180deg);
     color: #06281C;
     background: linear-gradient(90deg, #34D399, #22D3EE);
@@ -1059,6 +1059,8 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 
 /* Barra de filtros integrada sobre el índice */
 .unif-index .unif-filters { margin: 2px 0 16px; }
+/* ===== T12: ACORDEONES LIMPIOS — solo Exportar PDF a la derecha ===== */
+.accordion-header > .pdf-btn { margin-left: auto; flex-shrink: 0; }
 </style>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
@@ -1127,11 +1129,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">1</span> Control de iluminación automática</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 2 variables</span>
-<span><i class="fas fa-lightbulb"></i> Eficiencia energética</span>
-<span><i class="fas fa-home"></i> Hogar inteligente</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1167,11 +1164,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">2</span> Sistema de seguridad para ventana</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 2 variables</span>
-<span><i class="fas fa-shield-alt"></i> Seguridad</span>
-<span><i class="fas fa-home"></i> Hogar</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1207,11 +1199,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">3</span> Sistema de encendido de extractor de cocina</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 2 variables</span>
-<span><i class="fas fa-wind"></i> Ventilación</span>
-<span><i class="fas fa-utensils"></i> Cocina</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1247,11 +1234,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">4</span> Alarma de caja fuerte</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 2 variables</span>
-<span><i class="fas fa-lock"></i> Seguridad</span>
-<span><i class="fas fa-money-bill-alt"></i> Protección</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1287,11 +1269,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">5</span> Control de persiana automática</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 2 variables</span>
-<span><i class="fas fa-sun"></i> Climatización</span>
-<span><i class="fas fa-home"></i> Hogar</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1328,11 +1305,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">6</span> Control de temperatura en invernadero</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 3 variables</span>
-<span><i class="fas fa-leaf"></i> Agricultura</span>
-<span><i class="fas fa-thermometer-half"></i> Clima</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1369,11 +1341,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">7</span> Sistema de riego automático</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 3 variables</span>
-<span><i class="fas fa-tint"></i> Agua</span>
-<span><i class="fas fa-leaf"></i> Jardín</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1410,11 +1377,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">8</span> Control de acceso a parking</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 3 variables</span>
-<span><i class="fas fa-car"></i> Tráfico</span>
-<span><i class="fas fa-parking"></i> Estacionamiento</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1453,11 +1415,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">9</span> Sistema de alarma para coche</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 3 variables</span>
-<span><i class="fas fa-car"></i> Automóvil</span>
-<span><i class="fas fa-shield-alt"></i> Seguridad</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1495,11 +1452,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">10</span> Control de llenado de depósito de agua</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 3 variables</span>
-<span><i class="fas fa-tint"></i> Agua</span>
-<span><i class="fas fa-industry"></i> Industrial</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1536,11 +1488,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">11</span> Sistema de alerta de heladas</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 3 variables</span>
-<span><i class="fas fa-snowflake"></i> Clima</span>
-<span><i class="fas fa-exclamation-triangle"></i> Alerta</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1577,11 +1524,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">12</span> Control de iluminación de escalera</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 3 variables</span>
-<span><i class="fas fa-lightbulb"></i> Iluminación</span>
-<span><i class="fas fa-stairs"></i> Escalera</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1618,11 +1560,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">13</span> Sistema de ventilación de sótano</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 3 variables</span>
-<span><i class="fas fa-wind"></i> Ventilación</span>
-<span><i class="fas fa-house"></i> Sótano</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1659,11 +1596,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">14</span> Control de máquina de café</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 3 variables</span>
-<span><i class="fas fa-coffee"></i> Café</span>
-<span><i class="fas fa-mug-hot"></i> Bebidas</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1700,11 +1632,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">15</span> Sistema de apertura de puerta de garaje</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 3 variables</span>
-<span><i class="fas fa-garage"></i> Garaje</span>
-<span><i class="fas fa-car"></i> Automóvil</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1742,11 +1669,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">16</span> Sistema de climatización eficiente</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 4 variables</span>
-<span><i class="fas fa-thermometer-half"></i> Clima</span>
-<span><i class="fas fa-bolt"></i> Eficiencia</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1784,11 +1706,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">17</span> Control de tráfico en cruce</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 4 variables</span>
-<span><i class="fas fa-traffic-light"></i> Tráfico</span>
-<span><i class="fas fa-road"></i> Cruce</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1826,11 +1743,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">18</span> Sistema de monitorización de salud</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 4 variables</span>
-<span><i class="fas fa-heartbeat"></i> Salud</span>
-<span><i class="fas fa-user-md"></i> Medicina</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1868,11 +1780,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">19</span> Gestor de energías renovables</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 4 variables</span>
-<span><i class="fas fa-solar-panel"></i> Energía</span>
-<span><i class="fas fa-battery-full"></i> Almacenamiento</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1910,11 +1817,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">20</span> Control de acceso a edificio inteligente</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 4 variables</span>
-<span><i class="fas fa-building"></i> Edificio</span>
-<span><i class="fas fa-lock"></i> Seguridad</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1952,11 +1854,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">21</span> Sistema de riego inteligente para jardín</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 4 variables</span>
-<span><i class="fas fa-tint"></i> Riego</span>
-<span><i class="fas fa-leaf"></i> Jardín</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -1994,11 +1891,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">22</span> Control de iluminación pública</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 4 variables</span>
-<span><i class="fas fa-lightbulb"></i> Alumbrado</span>
-<span><i class="fas fa-road"></i> Público</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -2036,11 +1928,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">23</span> Sistema de seguridad para hogar digital</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 4 variables</span>
-<span><i class="fas fa-shield-alt"></i> Seguridad</span>
-<span><i class="fas fa-home"></i> Hogar</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -2078,11 +1965,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">24</span> Control de invernadero automatizado</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 4 variables</span>
-<span><i class="fas fa-leaf"></i> Agricultura</span>
-<span><i class="fas fa-robot"></i> Automatización</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -2120,11 +2002,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="accordion-header">
 <div>
 <h3><span class="problem-number">25</span> Gestor de carga de vehículo eléctrico</h3>
-<div class="problem-meta">
-<span><i class="fas fa-variable"></i> 4 variables</span>
-<span><i class="fas fa-car-battery"></i> Eléctrico</span>
-<span><i class="fas fa-charging-station"></i> Carga</span>
-</div>
 </div>
 <div class="accordion-toggle">
 <i class="fas fa-chevron-down"></i>
@@ -2158,10 +2035,6 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 <div class="rubric-section"><h4><i class="fas fa-clipboard-check"></i> Rúbrica de evaluación</h4><div class="rubric-table"><table><thead><tr><th>Criterio</th><th width="18%">Nivel 1-2,9</th><th width="18%">Nivel 3-4,9</th><th width="18%">Nivel 5-6,9</th><th width="18%">Nivel 7-8,9</th><th width="18%">Nivel 9-10</th></tr></thead><tbody><tr><td><strong>TEC.4.2.1</strong></td><td class="level-1">No analiza el diseño del producto ni identifica la necesidad que resuelve.</td><td class="level-2">Analiza superficialmente el diseño y reconoce parcialmente la necesidad.</td><td class="level-3">Analiza correctamente el diseño e identifica la necesidad que resuelve.</td><td class="level-4">Analiza detalladamente el diseño y explica la necesidad con precisión.</td><td class="level-5">Analiza exhaustivamente el diseño, justificando la necesidad y evaluando el ciclo de vida.</td></tr><tr><td><strong>TEC.4.4.2</strong></td><td class="level-1">No integra tecnologías emergentes ni IoT en la solución.</td><td class="level-2">Intenta integrar IoT pero con errores o sin funcionalidad real.</td><td class="level-3">Integra tecnologías emergentes de forma funcional.</td><td class="level-4">Integra IoT de forma efectiva aportando valor al sistema.</td><td class="level-5">Integra tecnologías emergentes de forma innovadora y disruptiva.</td></tr><tr><td><strong>TEC.4.6.1</strong></td><td class="level-1">No considera criterios de sostenibilidad ni impacto ambiental.</td><td class="level-2">Considera superficialmente la sostenibilidad pero sin aplicación práctica.</td><td class="level-3">Aplica criterios de sostenibilidad básicos en el diseño.</td><td class="level-4">Integra medidas concretas de sostenibilidad y eficiencia energética.</td><td class="level-5">Maximiza la sostenibilidad y justifica el impacto ecosocial del diseño.</td></tr></tbody></table></div></div></div>
 </div>
 </div>
-<footer class="footer">
-<p><i class="fas fa-graduation-cap"></i> Tecnología de 4º de ESO - Electrónica Digital - 25 Problemas</p>
-<p>Alineados con los criterios de evaluación del currículo educativo - Diseño HTML/CSS responsivo</p>
-</footer>
 </div>
 <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -2246,14 +2119,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 generateProblemPDF(problem, index + 1);
             });
 
-            // Insertar el botón junto al título (h3)
-            const title = headerTitleDiv.querySelector('h3');
-            if (title) {
-                // Hacemos que el título sea flexible para alinear el botón
-                title.style.display = 'inline-flex';
-                title.style.alignItems = 'center';
-                title.style.flexWrap = 'wrap';
-                title.appendChild(btn);
+            // Insertar el botón alineado a la derecha del encabezado (T12)
+            const headerRow = headerTitleDiv.parentElement;
+            if (headerRow) {
+                const toggleEl = headerRow.querySelector('.accordion-toggle');
+                if (toggleEl) {
+                    headerRow.insertBefore(btn, toggleEl);
+                } else {
+                    headerRow.appendChild(btn);
+                }
             }
         }
     });
