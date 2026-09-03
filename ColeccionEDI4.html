@@ -303,9 +303,6 @@ body > div[style*="-9999"] .pdf-btn, body > div[style*="750px"] .pdf-btn { displ
     header { background: #312e81 !important; border: none; box-shadow: none; }
     header::before, header::after { display: none; }
     header h1 { background: none; -webkit-text-fill-color: #fff; color: #fff; animation: none; filter: none; }
-    body > h1 { background: #312e81 !important; border: none; box-shadow: none; }
-    body > h1::before, body > h1::after { display: none; }
-    body > h1 .unif-shimmer { background: none; -webkit-text-fill-color: #fff; color: #fff; animation: none; filter: none; }
     header p { color: #e0e7ff !important; }
     header p:last-of-type::after { background: rgba(255,255,255,0.4); }
 }
@@ -316,64 +313,8 @@ body > div[style*="-9999"] .pdf-btn, body > div[style*="750px"] .pdf-btn { displ
 /* ============================================================
    SECCIÓN EDI4 · Documento simple con <details> nativos
    ============================================================ */
-body { margin: 8px; padding: 20px; }
+body { margin: 20px; }
 
-/* Héroe sin <header>: el h1 es el panel */
-body > h1 {
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-    font-family: var(--font-display);
-    font-size: clamp(1.9rem, 4vw, 2.9rem);
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 1.18;
-    padding: 2.7rem 1.5rem 3.1rem;
-    margin: 0 auto 2.2rem;
-    border-radius: 22px;
-    background: var(--bg-2);
-    border: 1px solid rgba(139, 92, 246, 0.28);
-    box-shadow: 0 30px 80px -40px rgba(139, 92, 246, 0.45);
-}
-body > h1 .unif-shimmer {
-    position: relative;
-    z-index: 1;
-    background: linear-gradient(100deg, #E0E7FF 0%, #A78BFA 32%, #22D3EE 62%, #E0E7FF 92%);
-    background-size: 220% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 7s linear infinite;
-    filter: drop-shadow(0 6px 26px rgba(139, 92, 246, 0.35));
-}
-body > h1 .unif-shimmer i { -webkit-text-fill-color: #67E8F9; }
-body > h1::before {
-    content: '';
-    position: absolute;
-    inset: -45%;
-    z-index: 0;
-    pointer-events: none;
-    background:
-        radial-gradient(36% 42% at 22% 38%, rgba(139, 92, 246, 0.40), transparent 70%),
-        radial-gradient(32% 40% at 78% 28%, rgba(34, 211, 238, 0.28), transparent 70%),
-        radial-gradient(28% 34% at 56% 86%, rgba(232, 121, 249, 0.20), transparent 70%);
-    filter: blur(34px);
-    animation: auroraDrift 22s ease-in-out infinite alternate;
-}
-body > h1::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-        linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
-    background-size: 44px 44px;
-    -webkit-mask-image: radial-gradient(72% 95% at 50% 42%, #000 25%, transparent 100%);
-    mask-image: radial-gradient(72% 95% at 50% 42%, #000 25%, transparent 100%);
-}
 body > p {
     background: linear-gradient(180deg, rgba(148, 163, 184, 0.07), rgba(148, 163, 184, 0.03));
     border: 1px solid var(--stroke);
@@ -451,16 +392,17 @@ summary {
 }
 summary::-webkit-details-marker { display: none; }
 summary::after {
-    content: '+';
+    content: '\f078';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
     flex-shrink: 0;
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
-    font-weight: 700;
+    font-size: 0.95rem;
     color: var(--cyan);
     background: var(--panel-strong);
     border: 1px solid var(--stroke);
@@ -469,7 +411,7 @@ summary::after {
 summary:hover { background: linear-gradient(120deg, rgba(139, 92, 246, 0.24), rgba(34, 211, 238, 0.09)); }
 details[open] summary { border-bottom: 1px solid var(--stroke-soft); color: #C7D2FE; }
 details[open] summary::after {
-    content: '−';
+    content: '\f078';
     transform: rotate(180deg);
     color: #fff;
     background: var(--grad-main);
@@ -507,7 +449,7 @@ details[open] summary::after {
     table { font-size: 13px; }
 }
 @media (max-width: 480px) {
-    body { margin: 8px; padding: 10px; }
+    body { margin: 10px; }
     summary { font-size: 0.95rem; padding: 13px 14px; }
     .problem-content { padding: 4px 14px 14px; }
 }
@@ -612,7 +554,9 @@ html { scroll-behavior: smooth; }
 }
 .unif-guia summary::-webkit-details-marker { display: none; }
 .unif-guia summary::after {
-    content: '+';
+    content: '\f078';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
     margin-left: auto;
     flex-shrink: 0;
     width: 30px;
@@ -621,17 +565,16 @@ html { scroll-behavior: smooth; }
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
-    font-weight: 700;
+    font-size: 0.95rem;
     color: var(--cyan);
     background: var(--panel-strong);
     border: 1px solid var(--stroke);
-    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), background 0.3s, color 0.3s, box-shadow 0.3s;
 }
 .unif-guia summary:hover { background: rgba(52, 211, 153, 0.10); color: #A7F3D0; }
 .unif-guia[open] summary { border-bottom: 1px solid var(--stroke-soft); }
 .unif-guia[open] summary::after {
-    content: '\2212';
+    content: '\f078';
     transform: rotate(180deg);
     color: #06281C;
     background: linear-gradient(90deg, #34D399, #22D3EE);
@@ -760,8 +703,6 @@ html { scroll-behavior: smooth; }
     border-color: #a7f3d0 !important;
 }
 .unif-pdf-bottom { margin-top: 14px; }
-details[id^="prob-"] > summary { flex-wrap: wrap; }
-details[id^="prob-"] > summary .unif-pdf-head { margin-left: auto; flex-shrink: 0; }
 
 /* ---- Título de cabecera para las tarjetas JS de EDI6 ---- */
 .problem-header .problem-title {
@@ -801,7 +742,7 @@ body > div[style*="-9999"] details > summary::after { display: none !important; 
   
 /* ===== ANCHURA UNIFICADA: columna única (cajas visibles de 1168px) ===== */
 .unif-toolbar { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 16px; padding-right: 16px; }
-body > h1, body > details[id^="prob-"] { max-width: 1168px; margin-left: auto; margin-right: auto; }
+body > header, body > details[id^="prob-"] { max-width: 1168px; margin-left: auto; margin-right: auto; }
   
 
 
@@ -883,12 +824,16 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
 
 /* Barra de filtros integrada sobre el índice */
 .unif-index .unif-filters { margin: 2px 0 16px; }
+/* ===== T12: ACORDEONES LIMPIOS — solo Exportar PDF a la derecha ===== */
+summary > .pdf-btn { margin-left: auto; flex-shrink: 0; }
 </style>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 </head>
 <body>
-    <h1><span class="unif-shimmer"><i class="fas fa-microchip"></i> Problemas de Electrónica Digital (IV) - 4º ESO</span></h1>
+    <header>
+    <h1><i class="fas fa-microchip"></i> Problemas de Electrónica Digital (IV) - 4º ESO</h1>
+    </header>
     <div class="unif-toolbar">
     <section class="unif-index" aria-label="Índice de problemas">
       <h2>Índice de problemas</h2>
@@ -945,7 +890,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </div>
 
     <details id="prob-1" data-cat="2vars">
-        <summary>Problema 1: Sistema de Alarma Simple para Puerta (2 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 1)">Exportar PDF</button></summary>
+        <summary>Problema 1: Sistema de Alarma Simple para Puerta (2 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 1)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>En una casa, se quiere un sistema de alarma que se active (salida A=1) solo si la puerta está abierta (P=1) y no hay luz en la habitación (L=0). Diseña el circuito lógico.</p>
             <h3>Solución</h3>
@@ -970,7 +915,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-2" data-cat="2vars">
-        <summary>Problema 2: Control de Luz en Baño (2 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 2)">Exportar PDF</button></summary>
+        <summary>Problema 2: Control de Luz en Baño (2 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 2)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>En un baño público, la luz se enciende (L=1) si hay alguien dentro (O=1) o si la puerta está abierta (P=1). Diseña el circuito.</p>
             <h3>Solución</h3>
@@ -995,7 +940,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-3" data-cat="2vars">
-        <summary>Problema 3: Interruptor de Luz Automático (2 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 3)">Exportar PDF</button></summary>
+        <summary>Problema 3: Interruptor de Luz Automático (2 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 3)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>La luz se apaga (A=0) si no hay movimiento (M=0) y es de día (D=1). Diseña el circuito para salida L=1 (luz encendida) en otros casos.</p>
             <h3>Solución</h3>
@@ -1020,7 +965,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-4" data-cat="2vars">
-        <summary>Problema 4: Alarma de Coche (2 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 4)">Exportar PDF</button></summary>
+        <summary>Problema 4: Alarma de Coche (2 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 4)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>La alarma se activa (A=1) si el coche está encendido (E=1) pero el cinturón no está abrochado (C=0).</p>
             <h3>Solución</h3>
@@ -1045,7 +990,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-5" data-cat="2vars">
-        <summary>Problema 5: Control de Ventilador (2 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 5)">Exportar PDF</button></summary>
+        <summary>Problema 5: Control de Ventilador (2 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 5)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>El ventilador se enciende (V=1) si hace calor (H=1) o hay humo (S=1).</p>
             <h3>Solución</h3>
@@ -1070,7 +1015,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-6" data-cat="3vars">
-        <summary>Problema 6: Detector de Humedad en Plantas (3 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 6)">Exportar PDF</button></summary>
+        <summary>Problema 6: Detector de Humedad en Plantas (3 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 6)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Un sistema riega una planta (R=1) si la humedad es baja (H=0), hay sol (S=1) y no está lloviendo (L=0).</p>
             <h3>Solución</h3>
@@ -1093,7 +1038,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-7" data-cat="3vars">
-        <summary>Problema 7: Control de Acceso a Garaje (3 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 7)">Exportar PDF</button></summary>
+        <summary>Problema 7: Control de Acceso a Garaje (3 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 7)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>La puerta se abre (A=1) si hay un coche esperando (C=1), el sensor de peso confirma (P=1) o el mando está activado (M=1).</p>
             <h3>Solución</h3>
@@ -1110,7 +1055,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-8" data-cat="3vars">
-        <summary>Problema 8: Alarma de Refrigerador (3 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 8)">Exportar PDF</button></summary>
+        <summary>Problema 8: Alarma de Refrigerador (3 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 8)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Alarma suena (S=1) si puerta abierta >5min (T=1), temperatura alta (A=1) y no hay comida dentro (C=0).</p>
             <h3>Solución</h3>
@@ -1127,7 +1072,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-9" data-cat="3vars">
-        <summary>Problema 9: Sistema de Iluminación Inteligente (3 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 9)">Exportar PDF</button></summary>
+        <summary>Problema 9: Sistema de Iluminación Inteligente (3 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 9)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Luz enciende (L=1) si es de noche (N=1), hay movimiento (M=1) y no hay luz natural (S=0).</p>
             <h3>Solución</h3>
@@ -1144,7 +1089,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-10" data-cat="3vars">
-        <summary>Problema 10: Detector de Movimiento en Jardín (3 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 10)">Exportar PDF</button></summary>
+        <summary>Problema 10: Detector de Movimiento en Jardín (3 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 10)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>La luz se enciende (L=1) si hay movimiento (M=1), es de noche (N=1) o hay lluvia (R=1).</p>
             <h3>Solución</h3>
@@ -1161,7 +1106,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-11" data-cat="3vars">
-        <summary>Problema 11: Control de Horno (3 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 11)">Exportar PDF</button></summary>
+        <summary>Problema 11: Control de Horno (3 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 11)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>El horno se apaga (A=0) si la temperatura es alta (T=1), puerta abierta (P=1) y tiempo excedido (E=1).</p>
             <h3>Solución</h3>
@@ -1178,7 +1123,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-12" data-cat="3vars">
-        <summary>Problema 12: Sistema de Seguridad para Bebé (3 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 12)">Exportar PDF</button></summary>
+        <summary>Problema 12: Sistema de Seguridad para Bebé (3 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 12)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Alarma (A=1) si bebé llora (L=1), habitación oscura (O=0) y padres no presentes (P=0).</p>
             <h3>Solución</h3>
@@ -1195,7 +1140,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-13" data-cat="3vars">
-        <summary>Problema 13: Control de Lavadora (3 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 13)">Exportar PDF</button></summary>
+        <summary>Problema 13: Control de Lavadora (3 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 13)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Inicia ciclo (I=1) si puerta cerrada (P=0), agua suficiente (A=1) y detergente presente (D=1).</p>
             <h3>Solución</h3>
@@ -1212,7 +1157,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-14" data-cat="3vars">
-        <summary>Problema 14: Detector de Incendio (3 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 14)">Exportar PDF</button></summary>
+        <summary>Problema 14: Detector de Incendio (3 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 14)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Alarma (A=1) si humo detectado (H=1), temperatura alta (T=1) o gas presente (G=1).</p>
             <h3>Solución</h3>
@@ -1229,7 +1174,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-15" data-cat="3vars">
-        <summary>Problema 15: Sistema de Alarma para Bicicleta (3 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 15)">Exportar PDF</button></summary>
+        <summary>Problema 15: Sistema de Alarma para Bicicleta (3 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 15)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Alarma (A=1) si movimiento detectado (M=1), candado roto (C=0) y dueño ausente (D=0).</p>
             <h3>Solución</h3>
@@ -1246,7 +1191,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-16" data-cat="4vars">
-        <summary>Problema 16: Control de Cafetera (4 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 16)">Exportar PDF</button></summary>
+        <summary>Problema 16: Control de Cafetera (4 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 16)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Cafetera inicia (I=1) si hay agua (A=1), café (C=1), taza presente (T=1) y botón presionado (B=1).</p>
             <h3>Solución</h3>
@@ -1263,7 +1208,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-17" data-cat="4vars">
-        <summary>Problema 17: Detector de Fugas en Hogar (4 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 17)">Exportar PDF</button></summary>
+        <summary>Problema 17: Detector de Fugas en Hogar (4 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 17)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Alarma (A=1) si fuga de gas (G=1) o agua (W=1), ventana cerrada (V=0) y nadie en casa (H=0).</p>
             <h3>Solución</h3>
@@ -1280,7 +1225,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-18" data-cat="4vars">
-        <summary>Problema 18: Sistema de Riego Automático (4 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 18)">Exportar PDF</button></summary>
+        <summary>Problema 18: Sistema de Riego Automático (4 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 18)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Riego activa (R=1) si suelo seco (S=1), no llueve (L=0), temperatura alta (T=1) y hora adecuada (H=1).</p>
             <h3>Solución</h3>
@@ -1297,7 +1242,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-19" data-cat="4vars">
-        <summary>Problema 19: Control de Ascensor Simple (4 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 19)">Exportar PDF</button></summary>
+        <summary>Problema 19: Control de Ascensor Simple (4 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 19)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Ascensor mueve (M=1) si puerta cerrada (P=0), botón presionado (B=1), no sobrecarga (S=0) y piso seleccionado (F=1).</p>
             <h3>Solución</h3>
@@ -1314,7 +1259,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-20" data-cat="4vars">
-        <summary>Problema 20: Sistema de Seguridad para Hogar (4 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 20)">Exportar PDF</button></summary>
+        <summary>Problema 20: Sistema de Seguridad para Hogar (4 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 20)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Alarma (A=1) si puerta abierta (P=1), ventana rota (V=1), no luz (L=0) y noche (N=1).</p>
             <h3>Solución</h3>
@@ -1331,7 +1276,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-21" data-cat="4vars">
-        <summary>Problema 21: Control de Microondas (4 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 21)">Exportar PDF</button></summary>
+        <summary>Problema 21: Control de Microondas (4 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 21)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Inicia (I=1) si puerta cerrada (P=0), tiempo establecido (T=1), potencia seleccionada (S=1) y botón start (B=1).</p>
             <h3>Solución</h3>
@@ -1348,7 +1293,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-22" data-cat="4vars">
-        <summary>Problema 22: Detector de Sobrecarga Eléctrica (4 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 22)">Exportar PDF</button></summary>
+        <summary>Problema 22: Detector de Sobrecarga Eléctrica (4 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 22)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Apaga circuito (A=1) si corriente alta (C=1), voltaje inestable (V=1), temperatura elevada (T=1) o fusible dañado (F=1).</p>
             <h3>Solución</h3>
@@ -1365,7 +1310,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-23" data-cat="4vars">
-        <summary>Problema 23: Sistema de Control para Robot Aspirador (4 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 23)">Exportar PDF</button></summary>
+        <summary>Problema 23: Sistema de Control para Robot Aspirador (4 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 23)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Inicia limpieza (I=1) si batería cargada (B=1), habitación sucia (S=1), no obstáculos (O=0) y horario programado (H=1).</p>
             <h3>Solución</h3>
@@ -1382,7 +1327,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-24" data-cat="4vars">
-        <summary>Problema 24: Alarma para Medicamentos (4 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 24)">Exportar PDF</button></summary>
+        <summary>Problema 24: Alarma para Medicamentos (4 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 24)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Recuerda (R=1) si hora de toma (H=1), medicamento disponible (M=1), paciente despierto (D=1) y no tomado aún (T=0).</p>
             <h3>Solución</h3>
@@ -1399,7 +1344,7 @@ body > div[style*="750px"] .rubrica h4, body > div[style*="750px"] .rubric h3 {
     </details>
 
     <details id="prob-25" data-cat="4vars">
-        <summary>Problema 25: Control de Termostato Inteligente (4 variables) <button class="pdf-btn unif-pdf-head" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 25)">Exportar PDF</button></summary>
+        <summary>Problema 25: Control de Termostato Inteligente (4 variables) <button class="pdf-btn" onclick="event.preventDefault(); event.stopPropagation(); exportarProblemaEDI4(this, 25)">Exportar PDF</button></summary>
         <div class="problem-content">
             <p>Activa calefacción (C=1) si temperatura baja (T=0), alguien en casa (P=1), no ventana abierta (V=0) y modo invierno (M=1).</p>
             <h3>Solución</h3>
